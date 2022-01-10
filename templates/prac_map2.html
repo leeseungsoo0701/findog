@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
+    />
+    <title>간단한 지도 표시하기</title>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=3imtaep5km"
+    ></script>
+    <script src=" https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <style>
+      #map {
+        width: 100%;
+        height: 400px;
+      }
+    </style>
+    <!--    <script src="{{ url_for('static', filename='prac_map2.js') }}" > </script>-->
+    <script>
+      $(document).ready(function () {
+        var map = new naver.maps.Map("map", {
+          zoom: 15,
+          center: new naver.maps.LatLng(37.3614483, 127.1114883),
+          mapTypeControl: true,
+        });
+        // 커서를 올리면 포인터로 나타내기
+        map.setCursor("pointer");
+        // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
+        var curMarker;
+        var menuLayer = $(
+          '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
+        );
+
+        map.getPanes().floatPane.appendChild(menuLayer[0]);
+
+        naver.maps.Event.addListener(map, "click", function (e) {
+          // if (curMarker != null) curMarker.setMap(curMarker);
+
+          curMarker = new naver.maps.Marker({
+            position: e.coord,
+            map: map,
+          });
+          console.log(`현재 위치 ${curMarker.position}`);
+          // submit(curMarker.getPosition());
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="map"></div>
+  </body>
+</html>

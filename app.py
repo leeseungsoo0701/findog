@@ -46,6 +46,20 @@ def upload_main():
     <!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>File Upload</title> </head> <body> <form action="http://localhost:5000/fileupload" method="POST" enctype="multipart/form-data"> <input type="file" name="file"> <input type="submit"> </form> </body> </html>"""
 
 ##############################################################
+@app.route('/api/map',methods=['GET'])
+def print_map():
+    return render_template('prac_map2.html')
+
+@app.route('/api/map',methods=['POST'])
+def print_location():
+    loc = request.form['location']
+    print(loc)
+
+
+    ###########
+
+
+
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
