@@ -11,12 +11,6 @@ client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진�
 db = client.dogFind  # db의 필드 name dogFind
 
 
-## HTML 화면 보여주기
-@app.route('/')
-def homework():
-    return render_template('index.html')
-
-
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
 # 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
 SECRET_KEY = 'dogFind'
@@ -29,7 +23,7 @@ import datetime
 
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^; 
-# 비밀번호 암호화
+# 비밀번호 암호화 해쉬 사용
 import hashlib
 
 
@@ -57,6 +51,10 @@ def login():
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+
+
+
 
 #################################
 ##  로그인을 위한 API            ##
