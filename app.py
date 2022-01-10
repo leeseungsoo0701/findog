@@ -11,7 +11,6 @@ app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 저장경로
 
 from pymongo import MongoClient
 import requests
-from bs4 import BeautifulSoup
 
 
 ########################
@@ -41,6 +40,17 @@ def upload_main():
 #########
 
 
+
+## HTML 화면 보여주기
+@app.route('/')
+def main():
+    return render_template('index.html')
+
+
+## map 화면 보여주기
+@app.route('/map')
+def map():
+    return render_template('prac_map.html')
 
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
