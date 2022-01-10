@@ -95,11 +95,6 @@ def print_location():
     print(loc)
 
 
-## HTML 화면 보여주기
-@app.route('/')
-def main():
-    return render_template('index.html')
-
 
 ## map 화면 보여주기
 @app.route('/map')
@@ -172,7 +167,11 @@ def register():
 def api_register():
     id_receive = request.form['id_give']     #사용자에게 받는  id   -> 중복 검사 진행해야함 if else로 
     pw_receive = request.form['pw_give']  # 사용자에게 받는 pw
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
+    db.user.insert_one({'id': id_receive, 'pw': pw_hash})
+
+    return jsonify({'result': 'success'})
 
 @app.route('/user/<username>')
 def user(username):
@@ -208,11 +207,9 @@ def sign_in():
         'id': username_receive,
         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24),  # 로그인 24시간 유지
 
-        'id': id_receive,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1800)
 
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  #.decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256') #.decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
