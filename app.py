@@ -4,7 +4,6 @@ app = Flask(__name__)
 
 from pymongo import MongoClient
 import requests
-from bs4 import BeautifulSoup
 
 #client = MongoClient('mongodb://test:test@localhost', 27017)   서버 연결 시 위 코드로 진행 id:test, pw:test
 client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진행
@@ -13,8 +12,13 @@ db = client.dogFind  # db의 필드 name dogFind
 
 ## HTML 화면 보여주기
 @app.route('/')
-def homework():
+def main():
     return render_template('index.html')
+
+## map 화면 보여주기
+@app.route('/map')
+def map():
+    return render_template('prac_map.html')
 
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
