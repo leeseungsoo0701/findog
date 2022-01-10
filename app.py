@@ -16,48 +16,48 @@ db = client.dogFind  # db의 필드 name dogFind
 def homework():
     return render_template('index.html')
 
-@app.route('/memo', methods=['GET'])
-def listing():
-    # sample_receive = request.args.get('sample_give')
-    articles = list(db.spartatest.find({},{'_id': False}))
+# @app.route('/memo', methods=['GET'])
+# def listing():
+#     # sample_receive = request.args.get('sample_give')
+#     articles = list(db.spartatest.find({},{'_id': False}))
 
-    return jsonify({'all_articles': articles})
+#     return jsonify({'all_articles': articles})
 
-## API 역할을 하는 부분
-@app.route('/memo', methods=['POST'])
-def saving():
-    url_receive = request.form['url_give']
-    comment_receive = request.form['comment_give']
+# ## API 역할을 하는 부분
+# @app.route('/memo', methods=['POST'])
+# def saving():
+#     url_receive = request.form['url_give']
+#     comment_receive = request.form['comment_give']
 
-    # url = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code=171539'
+#     # url = 'https://movie.naver.com/movie/bi/mi/basic.nhn?code=171539'
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-    data = requests.get(url_receive, headers=headers)
+#     headers = {
+#         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+#     data = requests.get(url_receive, headers=headers)
 
-    soup = BeautifulSoup(data.text, 'html.parser')
+#     soup = BeautifulSoup(data.text, 'html.parser')
 
 
-    image = soup.select_one('meta[property="og:image"]')['content']
-    title = soup.select_one('meta[property="og:title"]')['content']
-    desc = soup.select_one('meta[property="og:description"]')['content']
+#     image = soup.select_one('meta[property="og:image"]')['content']
+#     title = soup.select_one('meta[property="og:title"]')['content']
+#     desc = soup.select_one('meta[property="og:description"]')['content']
 
-    doc = {
-        'image' : image,
-        'title' : title,
-        'desc' : desc,
-        'url' : url_receive,
-        'comment' : comment_receive
-    }
+#     doc = {
+#         'image' : image,
+#         'title' : title,
+#         'desc' : desc,
+#         'url' : url_receive,
+#         'comment' : comment_receive
+#     }
 
-    db.spartatest.insert_one(doc)
-    return jsonify({'msg': '저장이 완료되었습니다.'})
+#     db.spartatest.insert_one(doc)
+#     return jsonify({'msg': '저장이 완료되었습니다.'})
 
-@app.route('/memo/delete', methods=['POST'])
-def delete_star():
-    url_receive = request.form['url_give']
-    db.spartatest.delete_one({'url': url_receive})
-    return jsonify({'msg': '삭제 완료되었습니다!'})
+# @app.route('/memo/delete', methods=['POST'])
+# def delete_star():
+#     url_receive = request.form['url_give']
+#     db.spartatest.delete_one({'url': url_receive})
+#     return jsonify({'msg': '삭제 완료되었습니다!'})
 
 
 #port 5000으로 웹 보여주기
