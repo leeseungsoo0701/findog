@@ -1,0 +1,12 @@
+<html>
+  <body>
+    <form
+      action="{{ url_for('img_upload') }}"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="dog_image" multiple />
+      <input type="submit" />
+    </form>
+  </body>
+</html>

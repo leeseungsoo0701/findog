@@ -1,19 +1,51 @@
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for #redirect, url_for 회원가입 시 추가
+from werkzeug.utils import secure_filename #imageupload 라이브러리
+from flask_pymongo import PyMongo
+import os  #OS
 
-app = Flask(__name__)
+
+UPLOAD_DIR = "/Users/seungsoo/Documents/GitHub/findog/dog-images" #이미지 저장 경로
+app = Flask(__name__) 
+app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 저장경로
+
 
 from pymongo import MongoClient
 import requests
 
+
+########################
 #client = MongoClient('mongodb://test:test@localhost', 27017)   서버 연결 시 위 코드로 진행 id:test, pw:test
 client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진행
-db = client.dogFind  # db의 필드 name dogFind
+db = client.localFindog  # db의 필드 name localFindog
+
+
+
+
+@app.route('/fileupload', methods=['POST'])
+def upload_files():
+    f = request.files['file'] 
+    fname = secure_filename(f.filename) 
+    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    f.save(path)
+    
+    db.dogimages.insert_one({'dog-images': path}) 
+    return 'File upload complete (%s)' % path
+
+@app.route('/test') 
+def upload_main(): 
+    return """ 
+    <!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>File Upload</title> </head> <body> <form action="http://localhost:5000/fileupload" method="POST" enctype="multipart/form-data"> <input type="file" name="file"> <input type="submit"> </form> </body> </html>"""
+
+
+#########
+
 
 
 ## HTML 화면 보여주기
 @app.route('/')
 def main():
     return render_template('index.html')
+
 
 ## map 화면 보여주기
 @app.route('/map')
@@ -33,7 +65,7 @@ import datetime
 
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^; 
-# 비밀번호 암호화
+# 비밀번호 암호화 해쉬 사용
 import hashlib
 
 
@@ -61,6 +93,10 @@ def login():
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+
+
+
 
 #################################
 ##  로그인을 위한 API            ##
@@ -137,6 +173,9 @@ def api_valid():
         return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+
+
 
 
 
