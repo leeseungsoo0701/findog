@@ -42,7 +42,8 @@ SECRET_KEY = 'SPARTA'
 
 # client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
 # db = client.dbsparta_plus_week4
-=======
+
+############
 @app.route('/fileupload', methods=['POST'])
 def upload_files():
     f = request.files['file'] 
@@ -69,7 +70,7 @@ db = client.dogFind  # db의 필드 name dogFind
 
 ###################################################
 @app.route('/fileupload', methods=['POST'])
-def upload_files():
+def upload_files_test():
     f = request.files['file'] 
     fname = secure_filename(f.filename) 
     path = os.path.join(app.config['UPLOAD_DIR'], fname) 
@@ -79,7 +80,7 @@ def upload_files():
     return 'File upload complete (%s)' % path
 
 @app.route('/test') 
-def upload_main(): 
+def upload_main_test(): 
     return """ 
     <!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>File Upload</title> </head> <body> <form action="http://localhost:5000/fileupload" method="POST" enctype="multipart/form-data"> <input type="file" name="file"> <input type="submit"> </form> </body> </html>"""
 
@@ -93,7 +94,7 @@ def print_location():
     loc = request.form['location']
     print(loc)
 
-=======
+
 ## HTML 화면 보여주기
 @app.route('/')
 def main():
@@ -116,7 +117,7 @@ SECRET_KEY = 'dogFind'
 
 
 
-=======
+
 # 회원가입 시엔, 비밀번호를 암호화하여 DB에 저장해두는 게 좋습니다.
 # 그렇지 않으면, 개발자(=나)가 회원들의 비밀번호를 볼 수 있으니까요.^^; 
 # 비밀번호 암호화 해쉬 사용
@@ -151,7 +152,7 @@ def login():
 def post():
     msg = request.args.get("msg")
     return render_template('post.html', msg=msg)
-=======
+
 @app.route('/register')
 def register():
     return render_template('register.html')
@@ -183,8 +184,8 @@ def user(username):
 
 
         user_info = db.users.find_one({"username": username}, {"_id": False})
-=======
-    db.user.insert_one({'id': id_receive, 'pw': pw_hash})
+
+        db.user.insert_one({'id': id_receive, 'pw': pw_hash})
 
 
         return render_template('user.html', user_info=user_info, status=status)
@@ -204,11 +205,11 @@ def sign_in():
     if result is not None:
         payload = {
 
-         'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
-=======
-            'id': id_receive,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1800)
+        'id': username_receive,
+        'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24),  # 로그인 24시간 유지
+
+        'id': id_receive,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=1800)
 
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')  #.decode('utf-8')
@@ -305,7 +306,6 @@ def get_posts():
             posts = list(db.posts.find({}).sort("date", -1).limit(20))
         else:
             posts = list(db.posts.find({"username":username_receive}).sort("date", -1).limit(20))
-=======
 
 
         for post in posts:
