@@ -1,10 +1,19 @@
 from pymongo import MongoClient
+import requests
 import jwt
 import datetime
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
+from werkzeug.utils import secure_filename #imageupload 라이브러리
+from flask_pymongo import PyMongo
+import os  #OS
+
+
+UPLOAD_DIR = "/Users/seungsoo/Documents/GitHub/findog/dog-images" #이미지 저장 경로
+app = Flask(__name__) 
+app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 저장경로
 
 
 app = Flask(__name__)
@@ -19,6 +28,24 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진행
 db = client.dogFind  # db의 필드 name dogFind
 
+
+###################################################
+@app.route('/fileupload', methods=['POST'])
+def upload_files():
+    f = request.files['file'] 
+    fname = secure_filename(f.filename) 
+    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    f.save(path)
+    
+    db.dogimages.insert_one({'dog-images': path}) 
+    return 'File upload complete (%s)' % path
+
+@app.route('/test') 
+def upload_main(): 
+    return """ 
+    <!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>File Upload</title> </head> <body> <form action="http://localhost:5000/fileupload" method="POST" enctype="multipart/form-data"> <input type="file" name="file"> <input type="submit"> </form> </body> </html>"""
+
+##############################################################
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
