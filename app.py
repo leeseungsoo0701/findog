@@ -1,15 +1,11 @@
-from pymongo import MongoClient
-import requests
 import jwt
 import datetime
-import hashlib
-from flask import Flask, render_template, jsonify, request, redirect, url_for
-from werkzeug.utils import secure_filename
+import os  # OS
 from datetime import datetime, timedelta
-from werkzeug.utils import secure_filename #imageupload 라이브러리
-from flask_pymongo import PyMongo
-import os  #OS
 
+import jwt
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from werkzeug.utils import secure_filename  # imageupload 라이브러리
 
 UPLOAD_DIR = "/Users/seungsoo/Documents/GitHub/findog/dog-images" #이미지 저장 경로
 app = Flask(__name__) 
@@ -17,8 +13,6 @@ app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 저장경로
 
 
 from pymongo import MongoClient
-import requests
-
 
 ########################
 #client = MongoClient('mongodb://test:test@localhost', 27017)   서버 연결 시 위 코드로 진행 id:test, pw:test
@@ -134,7 +128,8 @@ def home():
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습"
+                                             "니다."))
 
 
 @app.route('/login')
