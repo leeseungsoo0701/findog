@@ -25,8 +25,8 @@ db = client.localFindog  # db의 필드 name localFindog
 
 ######################### 이미지 업로드 레퍼런스(현재 사용 X)
 # app = Flask(__name__)
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
-# app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 #SECRET_KEY = 'SPARTA'
 
 # client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
@@ -126,6 +126,10 @@ def post():
 @app.route('/register')
 def register():
     return render_template('register.html')
+
+@app.route('/watchdog')
+def watchdog():
+    return render_template('watchdog.html')
 
 
 #################################
@@ -283,7 +287,36 @@ def search_dog():
 
 
 
-############################
+@app.route('/ajax', methods=['POST'])
+def ajax():
+    title = request.form['title']
+    dogName = request.form['dogName']
+    lostAddress = request.form['lostAddress']
+    contentArea = request.form['contentArea']
+    contentArea2 = request.form['contentArea2']
+    callArea = request.form['callArea']
+    # formFileMultiple = request.form['formFileMultiple']
+    
+    f = request.files['formFileMultiple'] 
+    fname = secure_filename(f.filename) 
+    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    f.save(path)
+
+    doc = {
+        'title': title,
+        'dogName': dogName,
+        'lostAddress': lostAddress,
+        'contentArea': contentArea,
+        'contentArea2': contentArea2,
+        'callArea': callArea,
+        'formFileMultiple': path
+    }
+    db.post.insert_one(doc)
+    return jsonify({'msg': '저장이 완료되었습니다.'})
+
+
+    
+
 
 
 

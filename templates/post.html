@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"
+    ></script>
 
+    <!--naver api ID-->
     <title>post</title>
     <style>
       .section {
@@ -54,10 +59,45 @@
           // submit(curMarker.getPosition());
         });
       });
+
+      <!--post to server js-->
+      function writepost() {
+        var title = $("#title").val();
+        var dogName = $("#dogName").val();
+        var lostAddress = $("#lostAddress").val();
+        var contentArea = $("#contentArea").val();
+        var contentArea2 = $("#contentArea2").val();
+        var callArea = $("#callArea").val();
+        var formFileMultiple = $("#formFileMultiple").val();
+
+        if (title == "" || dogName == "" || lostAddress == "") {
+          alert(" 필수 항목을 적어주세요");
+          $("#title").focus();
+          return false;
+        }
+        $.ajax({
+          type: "POST",
+          url: '{{url_for("ajax")}}',
+          data: {
+            title: title,
+            dogName: dogName,
+            lostAddress: lostAddress,
+            contentArea: contentArea,
+            contentArea2: contentArea2,
+            callArea: callArea,
+            formFileMultiple: formFileMultiple,
+          },
+          success: function (response) {
+            alert(response["msg"]); // 성공하면
+            window.location.href = "/";
+          },
+        });
+      }
     </script>
   </head>
   <body>
-    {% extends 'layout.html' %} {% block content %}
+    {% extends 'layout.html' %}
+    {% block content %}
 
     <div class="container">
       <section class="section is-primary">
@@ -151,7 +191,16 @@
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
 
           <div class="d-grid gap-2 col-6 mx-auto">
-            <button type="submit" class="btn btn-primary btn-lg">
+
+  
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              id="execute"
+              value="execute"
+              onclick="writepost()"
+            >
+
               작성완료
             </button>
           </div>
