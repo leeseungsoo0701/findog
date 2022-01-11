@@ -297,10 +297,11 @@ def ajax():
     callArea = request.form['callArea']
     # formFileMultiple = request.form['formFileMultiple']
     
-    f = request.files['formFileMultiple'] 
-    fname = secure_filename(f.filename) 
-    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
-    f.save(path)
+    # f = request.files['formFileMultiple'] 
+    # fname = secure_filename(f.filename) 
+    # path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    # f.save(path)
+    formFileMultiple = request.form['formFileMultiple']
 
     doc = {
         'title': title,
@@ -309,7 +310,9 @@ def ajax():
         'contentArea': contentArea,
         'contentArea2': contentArea2,
         'callArea': callArea,
-        'formFileMultiple': path
+
+        'formFileMultiple': formFileMultiple
+
     }
     db.post.insert_one(doc)
     return jsonify({'msg': '저장이 완료되었습니다.'})
