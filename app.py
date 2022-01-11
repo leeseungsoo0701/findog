@@ -40,18 +40,49 @@ db = client.localFindog  # db의 필드 name localFindog
 ######################## 이승수 이미지 업로드
 @app.route('/filesearch', methods=['POST'])
 def upload_files():
-    f = request.files['file'] 
-    fname = secure_filename(f.filename) 
-    path = os.path.join(app.config['UPLOAD_FOLDER'], fname) 
+    f = request.files['file']
+    title = request.form['title']
+    dogName = request.form['dogName']
+    lostAddress = request.form['lostAddress']
+    contentArea = request.form['contentArea']
+    contentArea2 = request.form['contentArea2']
+    callArea = request.form['callArea']
+    
+    fname = secure_filename(f.filename)
+    path = os.path.join(os.path.join(app.root_path, 'static/missing'))
+    if not os.path.isdir(path):
+        os.mkdir(path)
+    path = os.path.join(path, fname)
     f.save(path)
-    print(path)
-    return 'File upload complete (%s)' % path
+    doc = {
+        "dog-images": path,
+        "callArea": callArea,
+        'title' : title,
+        'dogName': dogName,
+        'lostAddress': lostAddress,
+        'contentArea': contentArea,
+        'contentArea2': contentArea2,
+    }
+    db.post.insert_one(doc)
+    return render_template('index.html')
 
 
-@app.route('/upload') 
-def upload_main(): 
-    return render_template('img_upload.html')
-############################
+
+# ######################## 이승수 이미지 업로드
+# @app.route('/filesearch', methods=['POST'])
+# def upload_files():
+#     f = request.files['file'] 
+#     fname = secure_filename(f.filename) 
+#     path = os.path.join(app.config['UPLOAD_FOLDER'], fname) 
+#     f.save(path)
+#     print(path)
+#     return 'File upload complete (%s)' % path
+
+
+# @app.route('/upload') 
+# def upload_main(): 
+#     return render_template('img_upload.html')
+# ############################
 
 
 
@@ -246,7 +277,7 @@ def posting():
 #############################메인 페이지 강아지 카드 내용 GET, map 마커들 내용 보내기
 @app.route('/api/mainpage', methods=['GET'])
 def main_card():
-    main_card = list(db.post.find({},{'_id': False})) ##### table명 Card
+    main_card = list(db.post.find({},{'_id': False}).sort('_id', -1))    ##### table명 Card 최신순
     return jsonify({'main_card': main_card})
 
 
@@ -254,9 +285,7 @@ def main_card():
 @app.route('/api/mainpage/search', methods=['POST'])
 def search_dog():
     search_dog = request.form['search_dog']
-    search_list = list(db.post.find({'dogName': search_dog},{'_id': False}))
-    print(search_dog)
-    print(search_list)
+    search_list = list(db.post.find({'dogName': search_dog},{'_id': False}).sort("_id",-1)) ###Card 최신순
     return jsonify({'search_list': search_list})
 
 
@@ -271,12 +300,14 @@ def ajax():
     contentArea = request.form['contentArea']
     contentArea2 = request.form['contentArea2']
     callArea = request.form['callArea']
+    formFileMultiple = request.files['formFileMultiple']
 
     
-    # f = request.files['formFileMultiple'] 
-    # fname = secure_filename(f.filename) 
-    # path = os.path.join(app.config['UPLOAD_DIR'], fname) 
-    # f.save(path)
+    f = request.files['file'] 
+    fname = secure_filename(f.filename) 
+    path = os.path.join(app.config['UPLOAD_FOLDER'], fname) 
+    f.save(path)
+    print(path)
 
     position_x = request.form['position_x']
     position_y = request.form['position_y']
@@ -289,7 +320,7 @@ def ajax():
         'contentArea': contentArea,
         'contentArea2': contentArea2,
         'callArea': callArea,
-
+        'formFileMultiple': formFileMultiple,
     }
 
     db.post.insert_one(doc)

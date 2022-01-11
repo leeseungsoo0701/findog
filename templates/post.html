@@ -34,82 +34,76 @@
     </style>
 
     <script>
+      $(document).ready(function () {
+        var map = new naver.maps.Map("map", {
+          zoom: 15,
+          center: new naver.maps.LatLng(37.3614483, 127.1114883),
+          mapTypeControl: true,
+        });
+        // 커서를 올리면 포인터로 나타내기
+        map.setCursor("pointer");
+        // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
+        var curMarker;
+        var menuLayer = $(
+          '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
+        );
 
+        map.getPanes().floatPane.appendChild(menuLayer[0]);
 
+        naver.maps.Event.addListener(map, "click", function (e) {
+          if (curMarker != null) curMarker.setMap(curMarker);
 
-            $(document).ready(function () {
-              var map = new naver.maps.Map("map", {
-                zoom: 15,
-                center: new naver.maps.LatLng(37.3614483, 127.1114883),
-                mapTypeControl: true,
-              });
-              // 커서를 올리면 포인터로 나타내기
-              map.setCursor("pointer");
-              // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
-              var curMarker;
-              var menuLayer = $(
-                '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
-              );
+          curMarker = new naver.maps.Marker({
+            position: e.coord,
+            map: map,
+          });
+          $.ajax({
+            type: "POST",
+            url: '{{url_for("ajax")}}',
+            data: {
+              position_x: curMarker.position.x,
+              postion_y: curMarker.position.y,
+            },
+            success: function (response) {
+              alert(response["msg"]); // 성공하면
+            },
+          });
+          console.log(curMarker.position.x, curMarker.position.y);
+        });
+      });
 
-              map.getPanes().floatPane.appendChild(menuLayer[0]);
+      <!--post to server js-->
+      function writepost() {
+        var title = $("#title").val();
+        var dogName = $("#dogName").val();
+        var lostAddress = $("#lostAddress").val();
+        var contentArea = $("#contentArea").val();
+        var contentArea2 = $("#contentArea2").val();
+        var callArea = $("#callArea").val();
 
-              naver.maps.Event.addListener(map, "click", function (e) {
-                if (curMarker != null) curMarker.setMap(curMarker);
+        if (title == "" || dogName == "" || lostAddress == "") {
+          alert(" 필수 항목을 적어주세요");
+          $("#title").focus();
+          return false;
+        }
 
-                curMarker = new naver.maps.Marker({
-                  position: e.coord,
-                  map: map,
-                });
-                $.ajax({
-                  type: "POST",
-                  url: '{{url_for("ajax")}}',
-                  data: {
-                    position_x: curMarker.position.x,
-                    postion_y: curMarker.position.y,
-                  },
-                  success: function (response) {
-                    alert(response["msg"]); // 성공하면
-                  },
-                });
-                console.log(curMarker.position.x, curMarker.position.y);
-
-              });
-
-            });
-
-            <!--post to server js-->
-            function writepost() {
-              var title = $("#title").val();
-              var dogName = $("#dogName").val();
-              var lostAddress = $("#lostAddress").val();
-              var contentArea = $("#contentArea").val();
-              var contentArea2 = $("#contentArea2").val();
-              var callArea = $("#callArea").val();
-
-              if (title == "" || dogName == "" || lostAddress == "") {
-                alert(" 필수 항목을 적어주세요");
-                $("#title").focus();
-                return false;
-              }
-
-              $.ajax({
-                type: "POST",
-                url: '{{url_for("ajax")}}',
-                data: {
-                  title: title,
-                  dogName: dogName,
-                  lostAddress: lostAddress,
-                  contentArea: contentArea,
-                  contentArea2: contentArea2,
-                  callArea: callArea,
-                },
-                success: function (response) {
-                  alert(response["msg"]); // 성공하면
-                  window.location.href = "/";
-                },
-              });
-            }
-      >>>>>>> ad0c37b (image upload in local)
+        $.ajax({
+          type: "POST",
+          url: '{{url_for("ajax")}}',
+          data: {
+            title: title,
+            dogName: dogName,
+            lostAddress: lostAddress,
+            contentArea: contentArea,
+            contentArea2: contentArea2,
+            callArea: callArea,
+          },
+          success: function (response) {
+            alert(response["msg"]); // 성공하면
+            window.location.href = "/";
+          },
+        });
+      }
     </script>
   </head>
   <body>
@@ -119,14 +113,21 @@
       <section class="section is-primary">
         <h1 class="title">글작성하기</h1>
 
-        <form class="row g-3">
+        <form
+          class="row g-3"
+          action="/filesearch"
+          method="post"
+          enctype="multipart/form-data"
+        >
           <div class="col-md-6">
             <label for="title" class="form-label">제목</label>
             <input
               type="text"
               class="form-control"
               id="title"
+              name="title"
               placeholder="제목을입력해주세요"
+              required
             />
           </div>
           <div class="col-md-6">
@@ -135,7 +136,9 @@
               type="text"
               class="form-control"
               id="dogName"
+              name="dogName"
               placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
+              required
             />
           </div>
           <div class="col-12">
@@ -146,7 +149,9 @@
               type="text"
               class="form-control"
               id="lostAddress"
+              name="lostAddress"
               placeholder="잃어버린 위치의 구/ 동까지 입력해주세요."
+              required
             />
           </div>
           <div class="col-12">
@@ -157,8 +162,10 @@
             <textarea
               class="form-control"
               id="contentArea"
+              name="contentArea"
               rows="6"
               placeholder="강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요."
+              required
             ></textarea>
           </div>
 
@@ -171,8 +178,10 @@
             <textarea
               class="form-control"
               id="contentArea2"
+              name="contentArea2"
               rows="6"
               placeholder="강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
+              required
             ></textarea>
           </div>
 
@@ -184,6 +193,7 @@
 
             <textarea
               class="form-control"
+              name="callArea"
               id="callArea"
               rows="1"
               placeholder="직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을 작성해주세요. "
@@ -197,17 +207,14 @@
             <input
               class="form-control"
               type="file"
+              name="file"
               id="formFileMultiple"
               placeholder="강아지 사진을 올려주세요."
               required
             />
-            <form
-              action="http://localhost:5000/filesearch"
-              method="POST"
-              enctype="multipart/form-data"
-            >
-              <input type="file" name="file" /> <input type="submit" />
-            </form>
+
+            <!--            <input type="file" name="file" />-->
+            <!--            <input type="submit" />-->
           </div>
 
           <span class="text-center">지도</span>
@@ -215,18 +222,16 @@
 
           <div class="d-grid gap-2 col-6 mx-auto">
             <button
-              type="button"
+              type="submit"
               class="btn btn-primary btn-lg"
               id="execute"
               value="execute"
-              onclick="writepost()"
             >
               작성완료
             </button>
           </div>
         </form>
-      </section>
-      >>>>>>> ad0c37b (image upload in local)
+
     </div>
 
     {% endblock %}

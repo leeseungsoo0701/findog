@@ -62,12 +62,21 @@
           let main_list = response['main_card']
                     for (let i = 0; i < main_list.length; i++) {
                         let dogName = main_list[i]['dogName']
-                        let formFileMultiple = main_list[i]['formFileMultiple']
+                        let dog_images = main_list[i]['dog-images']
+
+
                         let lostAddress = main_list[i]['lostAddress']
                         console.log(dogName)
+              
+                        let split_dog = dog_images.split('/')
+                        let length = split_dog.length
+                        console.log(length)
+                        let card_img = split_dog[length-1]
+                        console.log(card_img)
+
                         let temp_html = `   
                                             <div class="card col-12 mt-2">
-                                              <img src="${formFileMultiple}" class="card-img-top" alt="…">
+                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
@@ -108,8 +117,8 @@
 
     //강아지 이름 검색 시 POST AND GET APPEND(temp_html)
     function search_dog_name() {
+
       var search_dog = $('#search_dog').val()
-      
       $.ajax({
         type: "POST",
         url: '{{url_for("search_dog")}}',
@@ -117,16 +126,23 @@
           'search_dog': search_dog
         },
         success: function (response) {
+          $('#cards-box').empty()   // 검색 시 기존의 카드 empty 후 다시 채우기 만약에 해당사항 없을 시 모든 카드 조회
           console.log(response); // 성공하면
           let search_list = response['search_list']
                     for (let i = 0; i < search_list.length; i++) {
                         let dogName = search_list[i]['dogName']
-                        let formFileMultiple = search_list[i]['formFileMultiple']
+                        let dog_images = search_list[i]['dog-images']
                         let lostAddress = search_list[i]['lostAddress']
                         console.log(dogName)
+                        let split_dog = dog_images.split('/')
+                        let length = split_dog.length
+                        console.log(length)
+                        let card_img = split_dog[length-1]
+                        console.log(card_img)
+
                         let temp_html = `   
                                             <div class="card col-12 mt-2">
-                                              <img src="${formFileMultiple}" class="card-img-top" alt="…">
+                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
