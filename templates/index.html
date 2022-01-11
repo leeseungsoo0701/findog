@@ -56,6 +56,13 @@
       $(document).ready(function () {
         get_posts();
       });
+
+      <!--logout-->
+      function sign_out() {
+        $.removeCookie("mytoken", { path: "/" });
+        alert("로그아웃!");
+        window.location.href = "/login";
+      }
     </script>
   </head>
   <body class="has-navbar-fixed-top">
@@ -78,12 +85,14 @@
     <section class="section">
       <article class="media">
         <figure class="media-left" style="align-self: center">
-          <a class="image is-32x32" href="/user/{{ user_info.username }}">
             <img
               class="is-rounded"
-              src="{{ url_for('static', filename=user_info.profile_pic_real) }}"
             />
           </a>
+
+          <a href="/login"><button>로그인하기</button></a>
+          <a href="/post"><button>글쓰기</button></a>
+          <button onclick="sign_out()">로그아웃</button>
         </figure>
         <div class="media-content">
           <div class="field">

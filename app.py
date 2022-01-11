@@ -88,15 +88,15 @@ import hashlib
 ######################################
 @app.route('/')
 def home():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
-        return render_template('index.html', user_info=user_info)
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    #     user_info = db.users.find_one({"username": payload["id"]})
+        return render_template('index.html')
+    # except jwt.ExpiredSignatureError:
+    #     return redirect(url_for("", msg="로그인 시간이 만료되었습니다."))
+    # except jwt.exceptions.DecodeError:
+    #     return redirect(url_for("", msg="로그인 정보가 존재하지 않습니다."))
 
 
 @app.route('/login')
@@ -105,17 +105,27 @@ def login():
     return render_template('login.html', msg=msg)
 
 
+
+
+
 @app.route('/post')
 def post():
-    msg = request.args.get("msg")
-    return render_template('post.html', msg=msg)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        print(user_info)
+        return render_template("post.html", user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    # msg = request.args.get("msg")
+    # return render_template('post.html', msg=msg)
 
 @app.route('/register')
 def register():
     return render_template('register.html')
-
-
-
 
 
 #################################
@@ -125,14 +135,20 @@ def register():
 # [회원가입 API]
 # id, pw을 받아서, mongoDB에 저장합니다.
 # 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
-@app.route('/api/register', methods=['POST'])
-def api_register():
-    id_receive = request.form['id_give']     #사용자에게 받는  id   -> 중복 검사 진행해야함 if else로 
-    pw_receive = request.form['pw_give']  # 사용자에게 받는 pw
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-
-    db.user.insert_one({'id': id_receive, 'pw': pw_hash}) #### 비밀번호 sha256 방법을 사용하였다 (왜 sha256? 다른 건 없나?)
-
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()   #sha256
+    doc = {
+        "username": username_receive,
+        "password": password_hash,
+        # "profile_name": username_receive,
+        # "profile_pic": "",
+        # "profile_pic_real": "profile_pics/profile_placeholder.png",
+        # "profile_info": ""
+    }
+    db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
 
@@ -170,7 +186,7 @@ def sign_in():
         payload = {
 
         'id': username_receive,
-        'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24),  # 로그인 24시간 유지
+        'exp': datetime.utcnow() + timedelta(seconds=5),  # 로그인 24시간 유지
 
 
         }
@@ -181,23 +197,6 @@ def sign_in():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-
-########  회원가입 똑같은데 왜?
-# @app.route('/sign_up/save', methods=['POST'])
-# def sign_up():
-#     username_receive = request.form['username_give']
-#     password_receive = request.form['password_give']
-#     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-#     doc = {
-#         "username": username_receive,
-#         "password": password_hash,
-#         "profile_name": username_receive,
-#         "profile_pic": "",
-#         "profile_pic_real": "profile_pics/profile_placeholder.png",
-#         "profile_info": ""
-#     }
-#     db.users.insert_one(doc)
-#     return jsonify({'result': 'success'})
 
 ############# id 중복 체크
 @app.route('/sign_up/check_dup', methods=['POST'])
@@ -268,6 +267,23 @@ def posting():
 #         return redirect(url_for("home"))
 
 
+#############################메인 페이지 강아지 카드 내용 GET, map 마커들 내용 보내기
+@app.route('/api/mainpage', methods=['GET'])
+def main_page():
+    main_page = list(db.dog.find({},{'_id': False})) ##### table명 Card
+    return jsonify({'main_page': main_page})
+
+
+############################ 메인 페이지 강아지 검색 기능
+@app.route('/api/mainpage/search', methods=['POST'])
+def search_dog():
+    search_dog = request.form['search_dog']
+    search_list = list(db.dog.find({'dogname': search_dog},{'_id': False}))
+    return jsonify({'search_list': search_list})
+
+
+
+############################
 
 
 
