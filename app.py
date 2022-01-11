@@ -25,8 +25,8 @@ db = client.localFindog  # db의 필드 name localFindog
 
 ######################### 이미지 업로드 레퍼런스(현재 사용 X)
 # app = Flask(__name__)
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
-# app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 #SECRET_KEY = 'SPARTA'
 
 # client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
