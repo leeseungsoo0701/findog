@@ -127,6 +127,10 @@ def post():
 def register():
     return render_template('register.html')
 
+@app.route('/watchdog')
+def watchdog():
+    return render_template('watchdog.html')
+
 
 #################################
 ##  로그인을 위한 API            ##

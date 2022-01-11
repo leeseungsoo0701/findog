@@ -96,7 +96,8 @@
     </script>
   </head>
   <body>
-    {% extends 'layout.html' %} {% block content %}
+    {% extends 'layout.html' %}
+    {% block content %}
 
     <div class="container">
       <section class="section is-primary">
@@ -190,6 +191,8 @@
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
 
           <div class="d-grid gap-2 col-6 mx-auto">
+
+  
             <button
               type="button"
               class="btn btn-primary btn-lg"
@@ -197,6 +200,7 @@
               value="execute"
               onclick="writepost()"
             >
+
               작성완료
             </button>
           </div>
