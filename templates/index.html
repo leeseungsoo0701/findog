@@ -49,9 +49,40 @@
     }
   </style>
   <script>
+
+    //메인페이지 보여줄 시 GET APPEND(temp_html)을 이용한 모든 dog_card 보여주기
     $(document).ready(function () {
-      get_posts();
+      $.ajax({
+        type: "GET",
+        url: '{{url_for("main_card")}}',
+        data: {
+        },
+        success: function (response) {
+          console.log(response); // 성공하면
+          let main_list = response['main_card']
+                    for (let i = 0; i < main_list.length; i++) {
+                        let dogName = main_list[i]['dogName']
+                        let formFileMultiple = main_list[i]['formFileMultiple']
+                        let lostAddress = main_list[i]['lostAddress']
+                        console.log(dogName)
+                        let temp_html = `   
+                                            <div class="card col-12 mt-2">
+                                              <img src="${formFileMultiple}" class="card-img-top" alt="…">
+                                              <div class="card-body">
+                                                <h5 class="card-title">${dogName}</h5>
+                                                <p class="card-text">${lostAddress}</p>  
+                                              </div>
+                                            `
+                        $('#cards-box').append(temp_html)
+                                          }
+
+        },
+      })
     });
+
+
+
+     //네이버 MAP API 
     $(document).ready(function () {
       let map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
@@ -73,12 +104,43 @@
       // });
 
     })
-    function get_posts() {
 
 
+    //강아지 이름 검색 시 POST AND GET APPEND(temp_html)
+    function search_dog_name() {
+      var search_dog = $('#search_dog').val()
+      
+      $.ajax({
+        type: "POST",
+        url: '{{url_for("search_dog")}}',
+        data: {
+          'search_dog': search_dog
+        },
+        success: function (response) {
+          console.log(response); // 성공하면
+          let search_list = response['search_list']
+                    for (let i = 0; i < search_list.length; i++) {
+                        let dogName = search_list[i]['dogName']
+                        let formFileMultiple = search_list[i]['formFileMultiple']
+                        let lostAddress = search_list[i]['lostAddress']
+                        console.log(dogName)
+                        let temp_html = `   
+                                            <div class="card col-12 mt-2">
+                                              <img src="${formFileMultiple}" class="card-img-top" alt="…">
+                                              <div class="card-body">
+                                                <h5 class="card-title">${dogName}</h5>
+                                                <p class="card-text">${lostAddress}</p>  
+                                              </div>
+                                            `
+                        $('#cards-box').append(temp_html)
+                                          }
+
+        },
+      })
     }
 
-  </script>
+
+</script>
 </head>
 
 <body>
@@ -101,13 +163,12 @@
                   <!-- 검색창 id : search_dog -->
                   <div class="col">
                     <input class="form-control form-control-lg form-control-borderless" type="search"
-                      placeholder="강아지 이름 검색" id="search_dog">
+                      placeholder="강아지 이름 검색" id="search_dog" >
                   </div>
                   <!-- 검색 버튼 id : search_btn -->
                   <div class="col-auto">
-                    <button class="btn btn-lg btn-warning" type="submit" id="search_btn">
+                    <button class="btn btn-lg btn-warning" type="button" id="search_btn" onclick="search_dog_name()">
                       Search
-
                     </button>
                   </div>
                   <!--end of col-->
@@ -120,7 +181,18 @@
         </p>
       </div>
     </div>
+    <div id= "cards-box"></div>
     <div id="map"></div>
+
+
+
+
+
+
+
+
+
+    <!--###########################################-->
     <article class="media">
       <figure class="media-left" style="align-self: center">
         <img class="is-rounded" />
@@ -191,7 +263,10 @@
     </div>
 
   </section>
+  <!--############################################-->
+
   {% endblock %}
+
 </body>
 
 </html>

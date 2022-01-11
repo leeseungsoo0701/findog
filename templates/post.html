@@ -49,14 +49,24 @@
         map.getPanes().floatPane.appendChild(menuLayer[0]);
 
         naver.maps.Event.addListener(map, "click", function (e) {
-          // if (curMarker != null) curMarker.setMap(curMarker);
+          if (curMarker != null) curMarker.setMap(curMarker);
 
           curMarker = new naver.maps.Marker({
             position: e.coord,
             map: map,
           });
-          console.log(`현재 위치 ${curMarker.position}`);
-          // submit(curMarker.getPosition());
+          $.ajax({
+            type: "POST",
+            url: '{{url_for("ajax")}}',
+            data: {
+              position_x: curMarker.position.x,
+              postion_y: curMarker.position.y,
+            },
+            success: function (response) {
+              alert(response["msg"]); // 성공하면
+            },
+          });
+          console.log(curMarker.position.x, curMarker.position.y);
         });
       });
 
