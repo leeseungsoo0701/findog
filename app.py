@@ -283,7 +283,31 @@ def search_dog():
 
 
 
-############################
+@app.route('/ajax', methods=['POST'])
+def ajax():
+    title = request.form['title']
+    dogName = request.form['dogName']
+    lostAddress = request.form['lostAddress']
+    contentArea = request.form['contentArea']
+    contentArea2 = request.form['contentArea2']
+    callArea = request.form['callArea']
+    formFileMultiple = request.form['formFileMultiple']
+    
+    doc = {
+        'title': title,
+        'dogName': dogName,
+        'lostAddress': lostAddress,
+        'contentArea': contentArea,
+        'contentArea2': contentArea2,
+        'callArea': callArea,
+        'formFileMultiple': formFileMultiple
+    }
+    db.post.insert_one(doc)
+    return jsonify({'msg': '저장이 완료되었습니다.'})
+
+
+    
+
 
 
 

@@ -54,6 +54,36 @@
           // submit(curMarker.getPosition());
         });
       });
+
+      <!--post to server js-->
+      function writepost() {
+        var title = $("#title").val();
+        var dogName = $("#dogName").val();
+        var lostAddress = $("#lostAddress").val();
+        var contentArea = $("#contentArea").val();
+        var contentArea2 = $("#contentArea2").val();
+        var callArea = $("#callArea").val();
+        var formFileMultiple = $("#formFileMultiple").val();
+
+        $.ajax({
+          type: "POST",
+          url: '{{url_for("ajax")}}',
+          data: {
+            title: title,
+            dogName: dogName,
+            lostAddress: lostAddress,
+            contentArea: contentArea,
+            contentArea2: contentArea2,
+            callArea: callArea,
+            formFileMultiple: formFileMultiple,
+          },
+          success: function (response) {
+            // 성공하면
+            alert(response["msg"]);
+            window.location.reload(); //완성 시 새로고침 바로 가는 것
+          },
+        });
+      }
     </script>
   </head>
   <body>
@@ -151,7 +181,13 @@
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
 
           <div class="d-grid gap-2 col-6 mx-auto">
-            <button type="submit" class="btn btn-primary btn-lg">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              id="execute"
+              value="execute"
+              onclick="writepost()"
+            >
               작성완료
             </button>
           </div>
