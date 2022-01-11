@@ -70,16 +70,16 @@
               <a onclick="window.location.href='/post'">글쓰기</a>
             </button>
             <!-- userName이 존재하는 경우 -->
-            {% if userName %}
-            <button type="button" class="btn mr-1 btn btn-secondary">
-              <a onclick="sign_out()">로그아웃</a>
-            </button>
-            <div class="mr-3">laksndl{{ userName }}</div>
-            {% else %}
-            <!-- userName이 존재하지 않는경우(로그인x) -->
+            {% if username is none %}
             <button type="button" class="btn btn-success">
               <a onclick="window.location.href='/login'">로그인</a>
             </button>
+            {% else %}
+            <!-- userName이 존재하지 않는경우(로그인x) -->
+            <button type="button" class="btn mr-1 btn btn-secondary">
+              <a onclick="sign_out()">로그아웃</a>
+            </button>
+            <div class="mr-3">{{ username }}</div>
             {% endif %}
           </div>
         </div>

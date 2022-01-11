@@ -57,53 +57,10 @@
             position: e.coord,
             map: map,
           });
-          $.ajax({
-            type: "POST",
-            url: '{{url_for("ajax")}}',
-            data: {
-              position_x: curMarker.position.x,
-              postion_y: curMarker.position.y,
-            },
-            success: function (response) {
-              alert(response["msg"]); // 성공하면
-            },
-          });
+
           console.log(curMarker.position.x, curMarker.position.y);
         });
       });
-
-      <!--post to server js-->
-      function writepost() {
-        var title = $("#title").val();
-        var dogName = $("#dogName").val();
-        var lostAddress = $("#lostAddress").val();
-        var contentArea = $("#contentArea").val();
-        var contentArea2 = $("#contentArea2").val();
-        var callArea = $("#callArea").val();
-
-        if (title == "" || dogName == "" || lostAddress == "") {
-          alert(" 필수 항목을 적어주세요");
-          $("#title").focus();
-          return false;
-        }
-
-        $.ajax({
-          type: "POST",
-          url: '{{url_for("ajax")}}',
-          data: {
-            title: title,
-            dogName: dogName,
-            lostAddress: lostAddress,
-            contentArea: contentArea,
-            contentArea2: contentArea2,
-            callArea: callArea,
-          },
-          success: function (response) {
-            alert(response["msg"]); // 성공하면
-            window.location.href = "/";
-          },
-        });
-      }
     </script>
   </head>
   <body>
@@ -118,6 +75,7 @@
           action="/filesearch"
           method="post"
           enctype="multipart/form-data"
+          autocomplete = "off"
         >
           <div class="col-md-6">
             <label for="title" class="form-label">제목</label>
@@ -213,8 +171,6 @@
               required
             />
 
-            <!--            <input type="file" name="file" />-->
-            <!--            <input type="submit" />-->
           </div>
 
           <span class="text-center">지도</span>

@@ -11,7 +11,7 @@ from flask_pymongo import PyMongo #pymongo
 import os  #OS
 from pymongo import MongoClient
 import requests
-
+from bson import ObjectId
 
 
 ##########################이미지 업로드 주소
@@ -35,11 +35,28 @@ db = client.localFindog  # db의 필드 name localFindog
 # client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
 # db = client.dbsparta_plus_week4
 
+# 토큰
+DOGTOKEN = 'mytoken'
 
+def authenticated_user(request):
+    token = request.cookies.get(DOGTOKEN)
+    # 토큰이 존재하지 않는 경우
+    if token == None:
+        return None
+    try:
+        # print(token)
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        # print(user_info)
+        return user_info['username']
+    # 유효하지 않은 토큰인 경우
+    except Exception:
+        return None;
 
 ######################## 이승수 이미지 업로드
 @app.route('/filesearch', methods=['POST'])
 def upload_files():
+    auth_user = authenticated_user(request)
     f = request.files['file']
     title = request.form['title']
     dogName = request.form['dogName']
@@ -64,7 +81,7 @@ def upload_files():
         'contentArea2': contentArea2,
     }
     db.post.insert_one(doc)
-    return render_template('index.html')
+    return render_template('index.html',username=auth_user)
 
 
 
@@ -122,11 +139,12 @@ import hashlib
 ######################################
 @app.route('/')
 def home():
+    username= authenticated_user(request)
     # token_receive = request.cookies.get('mytoken')
     # try:
     #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     #     user_info = db.users.find_one({"username": payload["id"]})
-        return render_template('index.html')
+    return render_template('index.html',username=username)
     # except jwt.ExpiredSignatureError:
     #     return redirect(url_for("", msg="로그인 시간이 만료되었습니다."))
     # except jwt.exceptions.DecodeError:
@@ -144,16 +162,21 @@ def login():
 
 @app.route('/post')
 def post():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
-        print(user_info)
-        return render_template("post.html", user_info=user_info)
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    auth_member = authenticated_user(request)
+    if auth_member is None:
+        return redirect(url_for("login",msg="유효한 세션이 없습니다."))
+    else :
+        return render_template("post.html",username=auth_member)
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    #     user_info = db.users.find_one({"username": payload["id"]})
+    #     print(user_info)
+    #     return render_template("post.html", user_info=user_info)
+    # except jwt.ExpiredSignatureError:
+    #     return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    # except jwt.exceptions.DecodeError:
+    #     return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
     # msg = request.args.get("msg")
     # return render_template('post.html', msg=msg)
 
@@ -251,14 +274,13 @@ def check_dup():
 ################# 작성 완료 API
 @app.route('/posting', methods=['POST'])
 def posting():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 포스팅하기
-        user_info = db.users.find_one({"username": payload["id"]})
+    auth_user = authenticated_user(request)
+    if auth_user is None:
+        return redirect(url_for("home"),username=auth_user)
+    else:
+        user_info = auth_user
         comment_receive = request.form["comment_give"]
         date_receive = request.form["date_give"]
-        print(type(date_receive))
         doc = {
             "username": user_info["username"],
             "profile_name": user_info["profile_name"],
@@ -268,8 +290,26 @@ def posting():
         }
         db.posts.insert_one(doc)
         return jsonify({"result": "success", 'msg': '포스팅 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
+
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    #     # 포스팅하기
+    #     user_info = db.users.find_one({"username": payload["id"]})
+    #     comment_receive = request.form["comment_give"]
+    #     date_receive = request.form["date_give"]
+    #     print(type(date_receive))
+    #     doc = {
+    #         "username": user_info["username"],
+    #         "profile_name": user_info["profile_name"],
+    #         "profile_pic_real": user_info["profile_pic_real"],
+    #         "comment": comment_receive,
+    #         "date": date_receive
+    #     }
+    #     db.posts.insert_one(doc)
+    #     return jsonify({"result": "success", 'msg': '포스팅 성공'})
+    # except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+    #     return redirect(url_for("home"))
 
 
 
@@ -277,7 +317,8 @@ def posting():
 #############################메인 페이지 강아지 카드 내용 GET, map 마커들 내용 보내기
 @app.route('/api/mainpage', methods=['GET'])
 def main_card():
-    main_card = list(db.post.find({},{'_id': False}).sort('_id', -1))    ##### table명 Card 최신순
+    main_card = objectIdDecoder(list(db.post.find().sort('_id', -1)))   ##### table명 Card 최신순
+
     return jsonify({'main_card': main_card})
 
 
@@ -288,43 +329,34 @@ def search_dog():
     search_list = list(db.post.find({'dogName': search_dog},{'_id': False}).sort("_id",-1)) ###Card 최신순
     return jsonify({'search_list': search_list})
 
+########################### 카드에 해당하는 ID 변환
+def objectIdDecoder(list):
+    results = []
+    for document in list:
+        document['_id'] = str(document['_id'])
+        results.append(document)
+    return results
+
+
+############################### 변환된 ID를 부르는 곳
+@app.route('/memo', methods=['GET'])
+def delete_get():
+    articles = objectIdDecoder(list(db.post.find({})))
+    #all_alti = str(articles)
+    print(articles)
+    return jsonify({'all_articles': articles})
+
+###############################
+@app.route('/card_id', methods=['POST'])
+def card_id():
+    dog_id = request.form['dog_id']
+    print(dog_id)
+    select_card = db.post.find({'_id': ObjectId(dog_id)})
+    return render_template('watchdog.html', dog_id = select_card)
 
 
 
 
-@app.route('/ajax', methods=['POST'])
-def ajax():
-    title = request.form['title']
-    dogName = request.form['dogName']
-    lostAddress = request.form['lostAddress']
-    contentArea = request.form['contentArea']
-    contentArea2 = request.form['contentArea2']
-    callArea = request.form['callArea']
-    formFileMultiple = request.files['formFileMultiple']
-
-    
-    f = request.files['file'] 
-    fname = secure_filename(f.filename) 
-    path = os.path.join(app.config['UPLOAD_FOLDER'], fname) 
-    f.save(path)
-    print(path)
-
-    position_x = request.form['position_x']
-    position_y = request.form['position_y']
-    print(position_x)
-
-    doc = {
-        'title': title,
-        'dogName': dogName,
-        'lostAddress': lostAddress,
-        'contentArea': contentArea,
-        'contentArea2': contentArea2,
-        'callArea': callArea,
-        'formFileMultiple': formFileMultiple,
-    }
-
-    db.post.insert_one(doc)
-    return jsonify({'msg': '저장이 완료되었습니다.'})
 
 
     
