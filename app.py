@@ -240,50 +240,23 @@ def posting():
 
 
 
-########################  게시판 보여주기
-# @app.route("/get_posts", methods=['GET'])
-# def get_posts():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         my_username = payload["id"]
-#         username_receive = request.args.get("username_give")
-#         if username_receive=="":
-#             posts = list(db.posts.find({}).sort("date", -1).limit(20))
-#         else:
-#             posts = list(db.posts.find({"username":username_receive}).sort("date", -1).limit(20))
-
-
-#         for post in posts:
-#             post["_id"] = str(post["_id"])
-
-#             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
-#             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": my_username}))
-
-#             post["count_star"] = db.likes.count_documents({"post_id": post["_id"], "type": "star"})
-#             post["star_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "star", "username": my_username}))
-
-#             post["count_like"] = db.likes.count_documents({"post_id": post["_id"], "type": "like"})
-#             post["like_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "like", "username": my_username}))
-
-#         return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
-#     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-#         return redirect(url_for("home"))
-
-
 #############################메인 페이지 강아지 카드 내용 GET, map 마커들 내용 보내기
 @app.route('/api/mainpage', methods=['GET'])
-def main_page():
-    main_page = list(db.dog.find({},{'_id': False})) ##### table명 Card
-    return jsonify({'main_page': main_page})
+def main_card():
+    main_card = list(db.post.find({},{'_id': False})) ##### table명 Card
+    return jsonify({'main_card': main_card})
 
 
 ############################ 메인 페이지 강아지 검색 기능
 @app.route('/api/mainpage/search', methods=['POST'])
 def search_dog():
     search_dog = request.form['search_dog']
-    search_list = list(db.dog.find({'dogname': search_dog},{'_id': False}))
+    search_list = list(db.post.find({'dogName': search_dog},{'_id': False}))
+    print(search_dog)
+    print(search_list)
     return jsonify({'search_list': search_list})
+
+
 
 
 
@@ -295,12 +268,16 @@ def ajax():
     contentArea = request.form['contentArea']
     contentArea2 = request.form['contentArea2']
     callArea = request.form['callArea']
-    # formFileMultiple = request.form['formFileMultiple']
+    formFileMultiple = request.form['formFileMultiple']
     
-    f = request.files['formFileMultiple'] 
-    fname = secure_filename(f.filename) 
-    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
-    f.save(path)
+    # f = request.files['formFileMultiple'] 
+    # fname = secure_filename(f.filename) 
+    # path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    # f.save(path)
+
+    position_x = request.form['position_x']
+    position_y = request.form['position_y']
+    print(position_x)
 
     doc = {
         'title': title,
@@ -309,8 +286,10 @@ def ajax():
         'contentArea': contentArea,
         'contentArea2': contentArea2,
         'callArea': callArea,
-        'formFileMultiple': path
+        'formFileMultiple': formFileMultiple,
+        'position_x':position_x,
     }
+
     db.post.insert_one(doc)
     return jsonify({'msg': '저장이 완료되었습니다.'})
 

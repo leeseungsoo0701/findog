@@ -34,33 +34,45 @@
     </style>
 
     <script>
-        $(document).ready(function () {
-            var map = new naver.maps.Map("map", {
-                zoom: 15,
-                center: new naver.maps.LatLng(37.3614483, 127.1114883),
-                mapTypeControl: true,
-            });
-            // 커서를 올리면 포인터로 나타내기
-            map.setCursor("pointer");
-            // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
-            var curMarker;
-            var menuLayer = $(
-                '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
-            );
 
-            map.getPanes().floatPane.appendChild(menuLayer[0]);
 
-            naver.maps.Event.addListener(map, "click", function (e) {
-                // if (curMarker != null) curMarker.setMap(curMarker);
 
-                curMarker = new naver.maps.Marker({
-                    position: e.coord,
-                    map: map,
-                });
-                console.log(`현재 위치 ${curMarker.position}`);
+      $(document).ready(function () {
+        var map = new naver.maps.Map("map", {
+          zoom: 15,
+          center: new naver.maps.LatLng(37.3614483, 127.1114883),
+          mapTypeControl: true,
+        });
+        // 커서를 올리면 포인터로 나타내기
+        map.setCursor("pointer");
+        // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
+        var curMarker;
+        var menuLayer = $(
+          '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
+        );
 
-                // submit(curMarker.getPosition());
-            });
+        map.getPanes().floatPane.appendChild(menuLayer[0]);
+
+        naver.maps.Event.addListener(map, "click", function (e) {
+          if (curMarker != null) curMarker.setMap(curMarker);
+
+          curMarker = new naver.maps.Marker({
+            position: e.coord,
+            map: map,
+          });
+          $.ajax({
+            type: "POST",
+            url: '{{url_for("ajax")}}',
+            data: {
+              position_x: curMarker.position.x,
+              postion_y: curMarker.position.y,
+            },
+            success: function (response) {
+              alert(response["msg"]); // 성공하면
+            },
+          });
+          console.log(curMarker.position.x, curMarker.position.y);
+
         });
 
         <!--post to server js-->
@@ -96,6 +108,7 @@
                 },
             });
         }
+
     </script>
 </head>
 <body>
@@ -209,6 +222,7 @@
                 </div>
             </form>
         </section>
+
     </div>
 
 {% endblock %}
