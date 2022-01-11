@@ -50,8 +50,17 @@
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="{{ url_for('static', filename='myjs.js') }}"></script>
+    <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <script type="text/javascript"
+                src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"></script>   <!--naver api ID-->
 
+
+                <style>
+                    #map {
+                        width: 100%;
+                        height: 400px;
+                    }
+                </style>
     <script>
       $(document).ready(function () {
         get_posts();
@@ -63,8 +72,31 @@
         alert("로그아웃!");
         window.location.href = "/login";
       }
+
+      $(document).ready(function () {
+        let map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
+            zoom: 10, // 확대 레벨
+            zoomControl: true, // 확대, 축소 아이콘 생성
+            zoomControlOptions: {
+                style: naver.maps.ZoomControlStyle.SMALL,
+                position: naver.maps.Position.TOP_LEFT
+            }
+        });
+    
+        let marker =new naver.maps.Marker({
+            position: new naver.maps.LatLng(37.4981125, 127.0379399), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
+            map: map, // 위 설정한 'map' 이름 가져오기
+            icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
+        });
+        //     naver.maps.Event.addListener(map, 'click', function(e) {
+        //     marker.setPosition(e.coord);
+        // });
+    
+    })
     </script>
   </head>
+  
   <body class="has-navbar-fixed-top">
     <nav
       class="navbar is-fixed-top is-white"
@@ -82,6 +114,7 @@
         </a>
       </div>
     </nav>
+    <div id="map"></div>
     <section class="section">
       <article class="media">
         <figure class="media-left" style="align-self: center">
@@ -190,5 +223,6 @@
         </div>
       </div>
     </section>
+        
   </body>
 </html>
