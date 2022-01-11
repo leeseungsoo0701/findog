@@ -12,10 +12,13 @@ import os  #OS
 from pymongo import MongoClient
 import requests
 
+
+
 ##########################이미지 업로드 주소
-UPLOAD_DIR = "/Users/seungsoo/Documents/GitHub/findog/dog-images" #이미지 저장 경로 각자 로컬로 지정해야함 나중에 aws 내 폴더로 변경
+UPLOAD_FOLDER = "dog-images" #이미지 저장 경로 각자 로컬로 지정해야함 나중에 aws 내 폴더로 변경
 app = Flask(__name__) 
-app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 이미지 저장경로
+# app.config['UPLOAD_DIR'] = UPLOAD_DIR  # 이미지 저장경로
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 ########################DB 연결
@@ -25,12 +28,13 @@ db = client.localFindog  # db의 필드 name localFindog
 
 ######################### 이미지 업로드 레퍼런스(현재 사용 X)
 # app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+# app.config["TEMPLATES_AUTO_RELOAD"] = True
+# app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 #SECRET_KEY = 'SPARTA'
 
 # client = MongoClient('내AWS아이피', 27017, username="아이디", password="비밀번호")
 # db = client.dbsparta_plus_week4
+
 
 
 ######################## 이승수 이미지 업로드
@@ -38,14 +42,13 @@ app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 def upload_files():
     f = request.files['file'] 
     fname = secure_filename(f.filename) 
-    path = os.path.join(app.config['UPLOAD_DIR'], fname) 
+    path = os.path.join(app.config['UPLOAD_FOLDER'], fname) 
     f.save(path)
-    
-    db.dogimages.insert_one({'dog-images': path}) 
+    print(path)
     return 'File upload complete (%s)' % path
 
 
-@app.route('/fileupload') 
+@app.route('/upload') 
 def upload_main(): 
     return render_template('img_upload.html')
 ############################
@@ -268,7 +271,7 @@ def ajax():
     contentArea = request.form['contentArea']
     contentArea2 = request.form['contentArea2']
     callArea = request.form['callArea']
-    formFileMultiple = request.form['formFileMultiple']
+
     
     # f = request.files['formFileMultiple'] 
     # fname = secure_filename(f.filename) 
@@ -286,8 +289,7 @@ def ajax():
         'contentArea': contentArea,
         'contentArea2': contentArea2,
         'callArea': callArea,
-        'formFileMultiple': formFileMultiple,
-        'position_x':position_x,
+
     }
 
     db.post.insert_one(doc)

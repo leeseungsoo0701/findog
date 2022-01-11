@@ -1,230 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script
-            type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"
+      type="text/javascript"
+      src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"
     ></script>
 
     <!--naver api ID-->
     <title>post</title>
     <style>
-        .section {
-            width: 700px;
-            display: block;
-            background-color: bisque;
-            margin: 0 auto;
-            border-radius: 10px;
-            margin-top: 60px;
-            margin-bottom: 40px;
-        }
+      .section {
+        width: 700px;
+        display: block;
+        background-color: bisque;
+        margin: 0 auto;
+        border-radius: 10px;
+        margin-top: 60px;
+        margin-bottom: 40px;
+      }
 
-        .mapContainer {
-            border: 1px solid black;
-            width: 300px;
-            height: 300px;
-        }
+      .mapContainer {
+        border: 1px solid black;
+        width: 300px;
+        height: 300px;
+      }
 
-        #map {
-            width: 100%;
-            height: 400px;
-        }
+      #map {
+        width: 100%;
+        height: 400px;
+      }
     </style>
 
     <script>
 
 
 
-      $(document).ready(function () {
-        var map = new naver.maps.Map("map", {
-          zoom: 15,
-          center: new naver.maps.LatLng(37.3614483, 127.1114883),
-          mapTypeControl: true,
-        });
-        // 커서를 올리면 포인터로 나타내기
-        map.setCursor("pointer");
-        // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
-        var curMarker;
-        var menuLayer = $(
-          '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
-        );
+            $(document).ready(function () {
+              var map = new naver.maps.Map("map", {
+                zoom: 15,
+                center: new naver.maps.LatLng(37.3614483, 127.1114883),
+                mapTypeControl: true,
+              });
+              // 커서를 올리면 포인터로 나타내기
+              map.setCursor("pointer");
+              // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
+              var curMarker;
+              var menuLayer = $(
+                '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
+              );
 
-        map.getPanes().floatPane.appendChild(menuLayer[0]);
+              map.getPanes().floatPane.appendChild(menuLayer[0]);
 
-        naver.maps.Event.addListener(map, "click", function (e) {
-          if (curMarker != null) curMarker.setMap(curMarker);
+              naver.maps.Event.addListener(map, "click", function (e) {
+                if (curMarker != null) curMarker.setMap(curMarker);
 
-          curMarker = new naver.maps.Marker({
-            position: e.coord,
-            map: map,
-          });
-          $.ajax({
-            type: "POST",
-            url: '{{url_for("ajax")}}',
-            data: {
-              position_x: curMarker.position.x,
-              postion_y: curMarker.position.y,
-            },
-            success: function (response) {
-              alert(response["msg"]); // 성공하면
-            },
-          });
-          console.log(curMarker.position.x, curMarker.position.y);
+                curMarker = new naver.maps.Marker({
+                  position: e.coord,
+                  map: map,
+                });
+                $.ajax({
+                  type: "POST",
+                  url: '{{url_for("ajax")}}',
+                  data: {
+                    position_x: curMarker.position.x,
+                    postion_y: curMarker.position.y,
+                  },
+                  success: function (response) {
+                    alert(response["msg"]); // 성공하면
+                  },
+                });
+                console.log(curMarker.position.x, curMarker.position.y);
 
-        });
+              });
 
-        <!--post to server js-->
-        function writepost() {
-            var title = $("#title").val();
-            var dogName = $("#dogName").val();
-            var lostAddress = $("#lostAddress").val();
-            var contentArea = $("#contentArea").val();
-            var contentArea2 = $("#contentArea2").val();
-            var callArea = $("#callArea").val();
-            var formFileMultiple = $("#formFileMultiple").val();
+            });
 
-            if (title == "" || dogName == "" || lostAddress == "") {
+            <!--post to server js-->
+            function writepost() {
+              var title = $("#title").val();
+              var dogName = $("#dogName").val();
+              var lostAddress = $("#lostAddress").val();
+              var contentArea = $("#contentArea").val();
+              var contentArea2 = $("#contentArea2").val();
+              var callArea = $("#callArea").val();
+
+              if (title == "" || dogName == "" || lostAddress == "") {
                 alert(" 필수 항목을 적어주세요");
                 $("#title").focus();
                 return false;
-            }
-            $.ajax({
+              }
+
+              $.ajax({
                 type: "POST",
                 url: '{{url_for("ajax")}}',
                 data: {
-                    title: title,
-                    dogName: dogName,
-                    lostAddress: lostAddress,
-                    contentArea: contentArea,
-                    contentArea2: contentArea2,
-                    callArea: callArea,
-                    formFileMultiple: formFileMultiple,
+                  title: title,
+                  dogName: dogName,
+                  lostAddress: lostAddress,
+                  contentArea: contentArea,
+                  contentArea2: contentArea2,
+                  callArea: callArea,
                 },
                 success: function (response) {
-                    alert(response["msg"]); // 성공하면
-                    window.location.href = "/";
+                  alert(response["msg"]); // 성공하면
+                  window.location.href = "/";
                 },
-            });
-        }
-
+              });
+            }
+      >>>>>>> ad0c37b (image upload in local)
     </script>
-</head>
-<body>
-{% extends 'layout.html' %}
-{% block content %}
+  </head>
+  <body>
+    {% extends 'layout.html' %} {% block content %}
 
     <div class="container">
-        <section class="section is-primary">
-            <h1 class="title">글작성하기</h1>
+      <<<<<<< HEAD
+      <section class="section is-primary">
+        <h1 class="title">글작성하기</h1>
 
-            <form class="row g-3">
-                <div class="col-md-6">
-                    <label for="title" class="form-label">제목</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="title"
-                            placeholder="제목을입력해주세요"
-                    />
-                </div>
-                <div class="col-md-6">
-                    <label for="dogName" class="form-label">강아지 이름</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="dogName"
-                            placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
-                    />
-                </div>
-                <div class="col-12">
-                    <label for="lostAddress" class="form-label"
-                    >강아지를 잃어버린 위치</label
-                    >
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="lostAddress"
-                            placeholder="잃어버린 위치의 구/ 동까지 입력해주세요."
-                    />
-                </div>
-                <div class="col-12">
-                    <label for="contentArea" class="form-label">
-                        1. 강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요.</label
-                    >
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="title" class="form-label">제목</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="제목을입력해주세요"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="dogName" class="form-label">강아지 이름</label>
+            <input
+              type="text"
+              class="form-control"
+              id="dogName"
+              placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
+            />
+          </div>
+          <div class="col-12">
+            <label for="lostAddress" class="form-label"
+              >강아지를 잃어버린 위치</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="lostAddress"
+              placeholder="잃어버린 위치의 구/ 동까지 입력해주세요."
+            />
+          </div>
+          <div class="col-12">
+            <label for="contentArea" class="form-label">
+              1. 강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요.</label
+            >
 
-                    <textarea
-                            class="form-control"
-                            id="contentArea"
-                            rows="6"
-                            placeholder="강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요."
-                    ></textarea>
-                </div>
+            <textarea
+              class="form-control"
+              id="contentArea"
+              rows="6"
+              placeholder="강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요."
+            ></textarea>
+          </div>
 
-                <div class="col-12">
-                    <label for="contentArea2" class="form-label">
-                        2. 강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에
-                        대해서 적어주세요.</label
-                    >
+          <div class="col-12">
+            <label for="contentArea2" class="form-label">
+              2. 강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에
+              대해서 적어주세요.</label
+            >
 
-                    <textarea
-                            class="form-control"
-                            id="contentArea2"
-                            rows="6"
-                            placeholder="강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
-                    ></textarea>
-                </div>
+            <textarea
+              class="form-control"
+              id="contentArea2"
+              rows="6"
+              placeholder="강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
+            ></textarea>
+          </div>
 
-                <div class="col-12">
-                    <label for="callArea" class="form-label">
-                        3. 직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을
-                        작성해주세요.
-                    </label>
+          <div class="col-12">
+            <label for="callArea" class="form-label">
+              3. 직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을
+              작성해주세요.
+            </label>
 
-                    <textarea
-                            class="form-control"
-                            id="callArea"
-                            rows="1"
-                            placeholder="직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을 작성해주세요. "
-                    ></textarea>
-                </div>
+            <textarea
+              class="form-control"
+              id="callArea"
+              rows="1"
+              placeholder="직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을 작성해주세요. "
+            ></textarea>
+          </div>
 
-                <div class="mb-3">
-                    <label for="formFileMultiple" class="form-label"
-                    >강아지 사진을 올려주세요.</label
-                    >
-                    <input
-                            class="form-control"
-                            type="file"
-                            id="formFileMultiple"
-                            placeholder="강아지 사진을 올려주세요."
-                            multiple
-                    />
-                </div>
+          <div class="mb-3">
+            <label for="formFileMultiple" class="form-label"
+              >강아지 사진을 올려주세요.</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="formFileMultiple"
+              placeholder="강아지 사진을 올려주세요."
+              multiple
+            />
+          </div>
 
-                <span class="text-center">지도</span>
-                <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
+          <span class="text-center">지도</span>
+          <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
 
-                <div class="d-grid gap-2 col-6 mx-auto">
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              id="execute"
+              value="execute"
+              onclick="writepost()"
+            >
+              작성완료
+            </button>
+          </div>
+        </form>
+      </section>
 
+      =======
+      <section class="section is-primary">
+        <h1 class="title">글작성하기</h1>
 
-                    <button
-                            type="button"
-                            class="btn btn-primary btn-lg"
-                            id="execute"
-                            value="execute"
-                            onclick="writepost()"
-                    >
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="title" class="form-label">제목</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              placeholder="제목을입력해주세요"
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="dogName" class="form-label">강아지 이름</label>
+            <input
+              type="text"
+              class="form-control"
+              id="dogName"
+              placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
+            />
+          </div>
+          <div class="col-12">
+            <label for="lostAddress" class="form-label"
+              >강아지를 잃어버린 위치</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="lostAddress"
+              placeholder="잃어버린 위치의 구/ 동까지 입력해주세요."
+            />
+          </div>
+          <div class="col-12">
+            <label for="contentArea" class="form-label">
+              1. 강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요.</label
+            >
 
-                        작성완료
-                    </button>
-                </div>
+            <textarea
+              class="form-control"
+              id="contentArea"
+              rows="6"
+              placeholder="강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요."
+            ></textarea>
+          </div>
+
+          <div class="col-12">
+            <label for="contentArea2" class="form-label">
+              2. 강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에
+              대해서 적어주세요.</label
+            >
+
+            <textarea
+              class="form-control"
+              id="contentArea2"
+              rows="6"
+              placeholder="강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
+            ></textarea>
+          </div>
+
+          <div class="col-12">
+            <label for="callArea" class="form-label">
+              3. 직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을
+              작성해주세요.
+            </label>
+
+            <textarea
+              class="form-control"
+              id="callArea"
+              rows="1"
+              placeholder="직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을 작성해주세요. "
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="formFileMultiple" class="form-label"
+              >강아지 사진을 올려주세요.</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              id="formFileMultiple"
+              placeholder="강아지 사진을 올려주세요."
+              required
+            />
+            <form
+              action="http://localhost:5000/filesearch"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <input type="file" name="file" /> <input type="submit" />
             </form>
-        </section>
+          </div>
 
+          <span class="text-center">지도</span>
+          <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
+
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              id="execute"
+              value="execute"
+              onclick="writepost()"
+            >
+              작성완료
+            </button>
+          </div>
+        </form>
+      </section>
+      >>>>>>> ad0c37b (image upload in local)
     </div>
 
-{% endblock %}
-</body>
+    {% endblock %}
+  </body>
 </html>
