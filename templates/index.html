@@ -1,104 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Webpage Title -->
-    <title>Home | SWEETER</title>
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <meta property="og:title" content="스위터 - 세상을 달달하게" />
-    <meta property="og:description" content="mini project for Web Plus" />
-    <meta
-      property="og:image"
-      content="{{ url_for('static', filename='ogimg.png') }}"
-    />
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Bulma CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
-    />
-    <!-- Font Awesome CSS -->
-    <link
-      href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
+<head>
+  <!-- Webpage Title -->
+  <title>Home | SWEETER</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+  <meta property="og:title" content="스위터 - 세상을 달달하게" />
+  <meta property="og:description" content="mini project for Web Plus" />
+  <meta property="og:image" content="{{ url_for('static', filename='ogimg.png') }}" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='mystyle.css') }}"
-      rel="stylesheet"
-    />
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+  <!-- Font Awesome CSS -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="{{ url_for('static', filename='map.js') }}"></script>
-    <script type="text/javascript"
-                src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"></script>   <!--naver api ID-->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet" />
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <script src="{{ url_for('static', filename='map.js') }}"></script>
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"></script>
+  <!--naver api ID-->
 
 
-                <style>
-                    #map {
-                        width: 100%;
-                        height: 400px;
-                    }
-                </style>
-    <script>
-      $(document).ready(function () {
-        get_posts();
+  <style>
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+
+    .form-control-borderless {
+      border: none;
+    }
+
+    .form-control-borderless:hover,
+    .form-control-borderless:active,
+    .form-control-borderless:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+      get_posts();
+    });
+    $(document).ready(function () {
+      let map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
+        zoom: 10, // 확대 레벨
+        zoomControl: true, // 확대, 축소 아이콘 생성
+        zoomControlOpions: {
+          style: naver.maps.ZoomControlStyle.SMALL,
+          position: naver.maps.Position.TOP_LEFT
+        }
       });
 
-      <!--logout-->
-      function sign_out() {
-        $.removeCookie("mytoken", { path: "/" });
-        alert("로그아웃!");
-        window.location.href = "/login";
-      }
+      let marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(37.4981125, 127.0379399), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
+        map: map, // 위 설정한 'map' 이름 가져오기
+        icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
+      });
+      //     naver.maps.Event.addListener(map, 'click', function(e) {
+      //     marker.setPosition(e.coord);
+      // });
 
-      $(document).ready(function () {
-        let map = new naver.maps.Map('map', {
-            center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
-            zoom: 10, // 확대 레벨
-            zoomControl: true, // 확대, 축소 아이콘 생성
-            zoomControlOptions: {
-                style: naver.maps.ZoomControlStyle.SMALL,
-                position: naver.maps.Position.TOP_LEFT
-            }
-        });
-    
-        let marker =new naver.maps.Marker({
-            position: new naver.maps.LatLng(37.4981125, 127.0379399), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
-            map: map, // 위 설정한 'map' 이름 가져오기
-            icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
-        });
-        //     naver.maps.Event.addListener(map, 'click', function(e) {
-        //     marker.setPosition(e.coord);
-        // });
-    
     })
-    </script>
-  </head>
-  
-  <body class="has-navbar-fixed-top">
-    <nav
+    function get_posts() {
+
+
+    }
+
+  </script>
+</head>
+
+<body>
+  {% extends 'layout.html' %} {% block content %}
+
+  <!-- <nav
       class="navbar is-fixed-top is-white"
       role="navigation"
       aria-label="main navigation"
@@ -113,116 +99,116 @@
           >
         </a>
       </div>
-    </nav>
-    <div id="map"></div>
-    <section class="section">
-      <article class="media">
-        <figure class="media-left" style="align-self: center">
-            <img
-              class="is-rounded"
-            />
-          </a>
+    </nav> -->
 
-          <a href="/login"><button>로그인하기</button></a>
-          <a href="/post"><button>글쓰기</button></a>
-          <button onclick="sign_out()">로그아웃</button>
-        </figure>
-        <div class="media-content">
-          <div class="field">
-            <p class="control">
-              <input
-                id="input-post"
-                class="input is-rounded"
-                placeholder="무슨 생각을 하고 계신가요?"
-                onclick='$("#modal-post").addClass("is-active")'
-              />
-            </p>
-          </div>
-        </div>
-      </article>
-      <div class="modal" id="modal-post">
-        <div
-          class="modal-background"
-          onclick='$("#modal-post").removeClass("is-active")'
-        ></div>
-        <div class="modal-content">
-          <div class="box">
-            <article class="media">
-              <div class="media-content">
-                <div class="field">
-                  <p class="control">
-                    <textarea
-                      id="textarea-post"
-                      class="textarea"
-                      placeholder="무슨 생각을 하고 계신가요?"
-                    ></textarea>
-                  </p>
-                </div>
-                <nav class="level is-mobile">
-                  <div class="level-left"></div>
-                  <div class="level-right">
-                    <div class="level-item">
-                      <a class="button is-sparta" onclick="post()"
-                        >포스팅하기</a
-                      >
-                    </div>
-                    <div class="level-item">
-                      <a
-                        class="button is-sparta is-outlined"
-                        onclick='$("#modal-post").removeClass("is-active")'
-                        >취소</a
-                      >
-                    </div>
+  <section class="section">
+    <div class="media-content">
+      <div class="field">
+        <p class="control">
+          <!-- 검색창 -->
+        <div class="container">
+          <br />
+          <div class="row justify-content-center">
+            <div class="col-10 col-md-10 col-lg-9">
+              <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <i class="fas fa-search h4 text-body"></i>
                   </div>
-                </nav>
-              </div>
-            </article>
+                  <!-- 검색창 id : search_dog -->
+                  <div class="col">
+                    <input class="form-control form-control-lg form-control-borderless" type="search"
+                      placeholder="강아지 이름 검색" id="search_dog">
+                  </div>
+                  <!-- 검색 버튼 id : search_btn -->
+                  <div class="col-auto">
+                    <button class="btn btn-lg btn-warning" type="submit" id="search_btn">
+                      Search
+
+                    </button>
+                  </div>
+                  <!--end of col-->
+                </div>
+              </form>
+            </div>
+            <!--end of col-->
           </div>
         </div>
-        <button
-          class="modal-close is-large"
-          aria-label="close"
-          onclick='$("#modal-post").removeClass("is-active")'
-        ></button>
+        </p>
       </div>
-    </section>
-    <section class="section">
-      <div id="post-box" class="container">
+    </div>
+    <div id="map"></div>
+    <article class="media">
+      <figure class="media-left" style="align-self: center">
+        <img class="is-rounded" />
+      </figure>
+    </article>
+    <div class="modal" id="modal-post">
+      <div class="modal-background" onclick='$("#modal-post").removeClass("is-active")'></div>
+      <div class="modal-content">
         <div class="box">
           <article class="media">
-            <div class="media-left">
-              <a class="image is-64x64" href="#">
-                <img class="is-rounded" src={{ url_for("static",
-                filename="profile_pics/profile_placeholder.png") }} alt="Image">
-              </a>
-            </div>
             <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>홍길동</strong> <small>@username</small>
-                  <small>10분 전</small>
-                  <br />
-                  글을 적는 칸
+              <div class="field">
+                <p class="control">
+                  <textarea id="textarea-post" class="textarea" placeholder="무슨 생각을 하고 계신가요?"></textarea>
                 </p>
               </div>
               <nav class="level is-mobile">
-                <div class="level-left">
-                  <a
-                    class="level-item is-sparta"
-                    aria-label="heart"
-                    onclick="toggle_like('', 'heart')"
-                  >
-                    <span class="icon is-small"
-                      ><i class="fa fa-heart" aria-hidden="true"></i></span
-                    >&nbsp;<span class="like-num">2.7k</span>
-                  </a>
+                <div class="level-left"></div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <a class="button is-sparta" onclick="post()">포스팅하기</a>
+                  </div>
+                  <div class="level-item">
+                    <a class="button is-sparta is-outlined" onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                  </div>
                 </div>
               </nav>
             </div>
           </article>
         </div>
       </div>
-    </section>
-        
-  </body>
+      <button class="modal-close is-large" aria-label="close"
+        onclick='$("#modal-post").removeClass("is-active")'></button>
+    </div>
+  </section>
+  <section class="section" id="dogcardsec">
+    <div id="post-box" class="container">
+      <div class="box">
+        <article class="media">
+          <div class="media-left">
+            <a class="image is-64x64" href="#">
+              <img class="is-rounded" src={{ url_for("static", filename="profile_pics/profile_placeholder.png" ) }}
+                alt="Image">
+            </a>
+          </div>
+
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>홍길동</strong> <small>@username</small>
+                <small>10분 전</small>
+                <br />
+                글을 적는 칸
+              </p>
+            </div>
+            <nav class="level is-mobile">
+              <div class="level-left">
+                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('', 'heart')">
+                  <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;<span
+                    class="like-num">2.7k</span>
+                </a>
+              </div>
+            </nav>
+          </div>
+
+        </article>
+      </div>
+    </div>
+
+  </section>
+  {% endblock %}
+</body>
+
 </html>

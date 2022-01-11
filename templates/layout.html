@@ -21,6 +21,14 @@
       type="text/javascript"
       src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"
     ></script>
+    <script>
+      // < !--logout-->
+      function sign_out() {
+        $.removeCookie("mytoken", { path: "/" });
+        alert("로그아웃!");
+        window.location.href = "/login";
+      }
+    </script>
     <!--naver api ID-->
     <title>Title</title>
   </head>
@@ -55,13 +63,21 @@
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
           <div class="navbar-item">
-            <div class="mr-3">laksndl{{ userName }}</div>
-            <div class="buttons">
-              <a class="button is-primary">
-                <strong>Sign up</strong>
-              </a>
-              <a class="button is-light"> Log in </a>
-            </div>
+            <button type="button" class="btn btn-primary mr-1">
+              <a  onclick="window.location.href='/post'">글쓰기</a>
+            </button>
+            <!-- userName이 존재하는 경우 -->
+            {% if userName %}
+            <button type="button" class="btn mr-1 btn btn-secondary" >
+              <a onclick="sign_out()">로그아웃</a>
+            </button>
+              <div class="mr-3">laksndl{{ userName }}</div>
+            {% else %}
+            <!-- userName이 존재하지 않는경우(로그인x) -->
+            <button type="button" class="btn btn-success" >
+              <a onclick="window.location.href='/login'">로그인</a>
+            </button>
+            {% endif %}
           </div>
         </div>
       </div>
