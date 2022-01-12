@@ -108,6 +108,7 @@ def upload_modal():
         findArea = request.form['findArea']
         dogFace = request.form['dogFace']
         dog_img = request.files['dog_img']
+        nickname = request.form['nickname']
         
 
         fname = secure_filename(dog_img.filename)
@@ -124,6 +125,7 @@ def upload_modal():
 
 
         doc = {
+            "nickname": nickname,
             "page_id": page_id,
             'dogName': modal_dogName,
             'findArea': findArea,
@@ -131,8 +133,11 @@ def upload_modal():
             'dog-images': real_path
         }
         db.lost.insert_one(doc)
+        list_dog = list(db.lost.find({'page_id':page_id}))
+        # list_dog_list = objectIdDecoder(list_dog)
+        # print(list_dog_list)
         dog = db.post.find_one({'_id':ObjectId(page_id)})
-        return render_template('watchdog.html', dog=dog)
+        return render_template('watchdog.html', dog=dog, list_dog=list_dog)
 
 
 ######################
@@ -244,8 +249,10 @@ def register():
 
 @app.route('/watchdog/<path:subpath>')
 def watchdog(subpath):
+    auth_member = authenticated_user(request)
     dog = db.post.find_one({'_id': ObjectId(subpath)})
-    return render_template("watchdog.html", dog=dog)
+    list_dog = list(db.lost.find({'page_id': subpath}))
+    return render_template("watchdog.html", dog=dog, list_dog=list_dog, username=auth_member)
 
 
 
