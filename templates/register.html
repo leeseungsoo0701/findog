@@ -2,8 +2,26 @@
 <html lang="en">
   <head>
     <!-- Webpage Title -->
-    <title>Hello, world!</title>
-
+    <title>Register | Findog</title>
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}"
+      type="image/x-icon"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}"
+      type="image/x-icon"
+    />
+    <meta property="og:title" content="findog-가족을 찾아드립니다." />
+    <meta
+      property="og:description"
+      content="커뮤니케이션을 통한 반려견 구조 서비스"
+    />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='../static/logo/findog_logo.png') }}"
+    />
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta

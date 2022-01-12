@@ -4,11 +4,11 @@
 <head>
   <!-- Webpage Title -->
   <title>Home | Findog</title>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" type="image/x-icon" />
   <meta property="og:title" content="findog-가족을 찾아드립니다." />
   <meta property="og:description" content="커뮤니케이션을 통한 반려견 구조 서비스" />
-  <meta property="og:image" content="{{ url_for('static', filename='logo.png') }}" />
+  <meta property="og:image" content="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" />
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -87,7 +87,7 @@
 
 
                         let temp_html = `
-                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'">            
+                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'" class="col-5">            
                                               <img src="static/missing/${card_img}" class="card-img-top" alt="…" style="max-width:100%; height: 300px">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
@@ -260,7 +260,7 @@
         </p>
       </div>
     </div>
-    <div class="card col-6 mt-2" id= "cards-box"></div>
+    <div  id= "cards-box"></div>
     <div id="map"></div>
   </section>
   {% endblock %}

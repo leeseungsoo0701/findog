@@ -382,7 +382,7 @@ def sign_in():
 
 
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')   ##### 왜 HS256?
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256') #.decode('utf-8')   ##### 왜 HS256?
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
