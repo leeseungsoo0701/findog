@@ -144,6 +144,11 @@
               >
                 봤어요!
               </button>
+              <form action="/uploadmodal"
+              method="post"
+              enctype="multipart/form-data"
+              >
+              <textarea name="page_id" style="display:none">{{dog['_id']}}</textarea>
               <div
                 class="modal fade"
                 id="findModal"
@@ -172,9 +177,9 @@
                         <input
                           class="form-control"
                           type="file"
-                          id="formFileMultiple"
+                          id="dog_img"
+                          name="dog_img"
                           placeholder="강아지 사진을 올려주세요."
-                          multiple
                         />
                         <div class="row my-3">
                           <div class="col">
@@ -194,6 +199,7 @@
                               type="text"
                               class="form-control"
                               id="dogName"
+                              name = "dogName"
                               placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
                             />
                           </div>
@@ -207,6 +213,7 @@
                           type="text"
                           class="form-control"
                           id="dogFace"
+                          name ="dogFace"
                           placeholder="‘강아지 외관의 특징을 설명해주세요."
                           rows="3"
                         ></textarea>
@@ -219,6 +226,7 @@
                           type="text"
                           class="form-control"
                           id="findArea"
+                          name="findArea"
                           placeholder="발견하신 곳을 상세하게 설명해주세요."
                           rows="3"
                         ></textarea>
@@ -232,7 +240,7 @@
                       >
                         최소
                       </button>
-                      <button type="button" class="btn btn-primary">
+                      <button type="submit" class="btn btn-primary">
                         작성완료
                       </button>
                     </div>
@@ -240,6 +248,7 @@
                 </div>
               </div>
             </div>
+          </form>
 
             <table class="table caption-top">
               <caption>

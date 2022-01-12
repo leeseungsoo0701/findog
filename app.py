@@ -99,6 +99,42 @@ def upload_files():
         return render_template('index.html',username=auth_user)
 
 
+############### 
+######################## 이승수 modal POST
+@app.route('/uploadmodal', methods=['POST'])
+def upload_modal():
+        page_id = request.form['page_id']
+        modal_dogName = request.form['dogName']
+        findArea = request.form['findArea']
+        dogFace = request.form['dogFace']
+        dog_img = request.files['dog_img']
+        
+
+        fname = secure_filename(dog_img.filename)
+        path = os.path.join(os.path.join(app.root_path, 'static/lost'))
+        if not os.path.isdir(path):
+            os.mkdir(path)
+        path = os.path.join(path, fname)
+        split_path = path.split('/')
+        print(split_path)
+        img_length = len(split_path)
+        real_path = str(split_path[img_length-3] +'/'+ split_path[img_length-2] +'/'+ split_path[img_length-1])  # 경로는 동일하다.
+        print(real_path)
+        dog_img.save(path)
+
+
+        doc = {
+            "page_id": page_id,
+            'dogName': modal_dogName,
+            'findArea': findArea,
+            'dogFace': dogFace,
+            'dog-images': real_path
+        }
+        db.lost.insert_one(doc)
+        dog = db.post.find_one({'_id':ObjectId(page_id)})
+        return render_template('watchdog.html', dog=dog)
+
+
 ######################
 @app.route('/getlocation', methods = ['GET'])
 def get_location():
