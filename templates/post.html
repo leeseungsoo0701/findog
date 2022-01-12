@@ -59,13 +59,17 @@
           });
 
           console.log(curMarker.position.x, curMarker.position.y);
+          let x = curMarker.position.x
+          let y = curMarker.position.y
+          document.getElementById('x').value = curMarker.position.x;
+          document.getElementById('y').value = curMarker.position.y;
+
         });
       });
     </script>
   </head>
   <body>
     {% extends 'layout.html' %} {% block content %}
-
     <div class="container">
       <section class="section is-primary">
         <h1 class="title">글작성하기</h1>
@@ -175,7 +179,7 @@
 
           <span class="text-center">지도</span>
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
-
+          <div id ="location" style="display: none;"><textarea id="x" name="locationx" class="form-control"></textarea> <textarea id="y" name="locationy" class="form-control"></textarea></div>
           <div class="d-grid gap-2 col-6 mx-auto">
             <button
               type="submit"

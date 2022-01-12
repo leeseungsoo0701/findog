@@ -56,36 +56,53 @@ def authenticated_user(request):
 ######################## 이승수 이미지 업로드
 @app.route('/filesearch', methods=['POST'])
 def upload_files():
-    auth_user = authenticated_user(request)
-    f = request.files['file']
-    title = request.form['title']
-    dogName = request.form['dogName']
-    lostAddress = request.form['lostAddress']
-    contentArea = request.form['contentArea']
-    contentArea2 = request.form['contentArea2']
-    callArea = request.form['callArea']
-    
-    fname = secure_filename(f.filename)
-    path = os.path.join(os.path.join(app.root_path, 'static/missing'))
-    if not os.path.isdir(path):
-        os.mkdir(path)
-    path = os.path.join(path, fname)
-    split_path = path.split('/')
-    print(split_path)
-    real_path = str(split_path[6] +'/'+ split_path[7] +'/'+ split_path[8])
-    print(real_path)
-    f.save(path)
-    doc = {
-        "dog-images": real_path,
-        "callArea": callArea,
-        'title' : title,
-        'dogName': dogName,
-        'lostAddress': lostAddress,
-        'contentArea': contentArea,
-        'contentArea2': contentArea2,
-    }
-    db.post.insert_one(doc)
-    return render_template('index.html',username=auth_user)
+    if methods == "POST":
+        auth_user = authenticated_user(request)
+        f = request.files['file']
+        title = request.form['title']
+        dogName = request.form['dogName']
+        lostAddress = request.form['lostAddress']
+        contentArea = request.form['contentArea']
+        contentArea2 = request.form['contentArea2']
+        callArea = request.form['callArea']
+        locationx = request.form['locationx']
+        locationy = request.form['locationy']
+        print('location—————'+locationx) 
+        print('location—————'+locationy) 
+
+        
+        fname = secure_filename(f.filename)
+        path = os.path.join(os.path.join(app.root_path, 'static/missing'))
+        if not os.path.isdir(path):
+            os.mkdir(path)
+        path = os.path.join(path, fname)
+        split_path = path.split('/')
+        print(split_path)
+        real_path = str(split_path[6] +'/'+ split_path[7] +'/'+ split_path[8])  # 경로는 동일하다.
+        print(real_path)
+        f.save(path)
+
+
+        doc = {
+            "dog-images": real_path,
+            "callArea": callArea,
+            'title' : title,
+            'dogName': dogName,
+            'lostAddress': lostAddress,
+            'contentArea': contentArea,
+            'contentArea2': contentArea2,
+            'locationx':locationx,
+            'locationy':locationy
+        }
+        db.post.insert_one(doc)
+        return render_template('index.html',username=auth_user)
+
+
+######################
+@app.route('/getlocation', methods = ['GET'])
+def get_location():
+    main_location = list(db.post.find({},{'_id': False}))
+    return jsonify({'main_location': main_location})
 
 
 

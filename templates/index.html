@@ -127,6 +127,35 @@
 
      //네이버 MAP API 
     $(document).ready(function () {
+      let newxarray = new Array();
+      let newyarray = new Array();
+      $.ajax({
+        url:'/getlocation', //request 보낼 서버의 경로
+        type:'GET', // 메소드(get, post, put 등)
+        data:{}, //보낼 데이터
+        success: function(response) {
+            //서버로부터 정상적으로 응답이 왔을 때 실행
+            let location = response['main_location']
+            console.log(location)
+            for (let i =0; i<location.length;i++){
+              let x = location[i]['locationx']
+              let y = location[i]['locationy']
+              let z = y+','+x
+
+              console.log(typeof(x))
+
+              newxarray.push(x)
+              newyarray.push(y)
+              
+            }
+            console.log(newxarray,newyarray)
+        },
+        error: function(err) {
+            //서버로부터 응답이 정상적으로 처리되지 못햇을 때 실행
+        }
+    });
+    
+  
       let map = new naver.maps.Map('map', {
         center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
         zoom: 10, // 확대 레벨
@@ -136,12 +165,16 @@
           position: naver.maps.Position.TOP_LEFT
         }
       });
+      for (var i = 0; i<newxarray.length; i++){
+        let marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(newyarray[i], newxarray[i]), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
+          map: map, // 위 설정한 'map' 이름 가져오기
+          icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
+        });
+        marker.setMap(map)
+        console.log(newxarray[i])
+      }
 
-      let marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(37.4981125, 127.0379399), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
-        map: map, // 위 설정한 'map' 이름 가져오기
-        icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
-      });
       //     naver.maps.Event.addListener(map, 'click', function(e) {
       //     marker.setPosition(e.coord);
       // });
@@ -177,6 +210,7 @@
                         let temp_html = `   
                                             <div class="card col-12 mt-2">
                                               <img src="static/missing/${card_img}" class="card-img-top" alt="…">
+                                              <a href ="/watchdog/${dog_id}">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
