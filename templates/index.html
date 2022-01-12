@@ -3,12 +3,12 @@
 
 <head>
   <!-- Webpage Title -->
-  <title>Home | SWEETER</title>
+  <title>Home | Findog</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon" />
-  <meta property="og:title" content="스위터 - 세상을 달달하게" />
-  <meta property="og:description" content="mini project for Web Plus" />
-  <meta property="og:image" content="{{ url_for('static', filename='ogimg.png') }}" />
+  <meta property="og:title" content="findog-가족을 찾아드립니다." />
+  <meta property="og:description" content="커뮤니케이션을 통한 반려견 구조 서비스" />
+  <meta property="og:image" content="{{ url_for('static', filename='logo.png') }}" />
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -26,9 +26,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <!--naver api ID-->
   <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"></script>
-  <!--naver api ID-->
-
 
   <style>
     #map {
@@ -48,6 +47,9 @@
       box-shadow: none;
     }
   </style>
+
+
+
   <script>
     window.onkeydown = function() {
       var kcode = event.keyCode;
