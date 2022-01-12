@@ -86,15 +86,13 @@
                         let card_img = split_dog[length-1]
 
 
-                        let temp_html = `   
-                                            <div class="card col-12 mt-2" id="card-onclick" onclick="searchcard('${dog_id}')">
-                                              <a href ="/watchdog/${dog_id}">
-                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…">
+                        let temp_html = `
+                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'">            
+                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…" style="max-width:100%; height: 300px">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
                                               </div>
-                                            </a>
                                             </div>
                                             `
                         $('#cards-box').append(temp_html)
@@ -262,7 +260,7 @@
         </p>
       </div>
     </div>
-    <div id= "cards-box"></div>
+    <div class="card col-6 mt-2" id= "cards-box"></div>
     <div id="map"></div>
   </section>
   {% endblock %}

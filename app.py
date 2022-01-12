@@ -22,8 +22,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 ########################DB 연결
-client = MongoClient('mongodb://test:test@localhost', 27017)   #서버 연결 시 위 코드로 진행 id:test, pw:test
-#client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진행
+#client = MongoClient('mongodb://test:test@localhost', 27017)   #서버 연결 시 위 코드로 진행 id:test, pw:test
+client = MongoClient('localhost', 27017)  # 로컬 진행 시 위 코드로 진행
 db = client.localFindog  # db의 필드 name localFindog
 
 ######################### 이미지 업로드 레퍼런스(현재 사용 X)
