@@ -46,6 +46,18 @@
       outline: none;
       box-shadow: none;
     }
+    *{
+      box-sizing: border-box;
+      }
+    
+    .maincard{
+      padding:0px; 
+      margin: 10px auto; 
+      border: 2px solid #000; 
+      border-radius:30px; 
+      background-color:white;
+      box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
+    }
   </style>
 
 
@@ -87,14 +99,16 @@
 
 
                         let temp_html = `
-                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'" class="col-5">            
-                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…" style="max-width:100%; height: 300px">
+                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">            
+                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…" style="...">
                                               <div class="card-body">
-                                                <h5 class="card-title">${dogName}</h5>
-                                                <p class="card-text">${lostAddress}</p>  
+                                                <h5 class="card-title">강아지 이름: ${dogName}</h5>
+                                                <p class="card-text">잃어버린 위치: ${lostAddress}</p>  
                                               </div>
                                             </div>
                                             `
+
+                                        
                         $('#cards-box').append(temp_html)
                                           }
 
@@ -204,11 +218,11 @@
                         console.log(card_img)
 
                         let temp_html = `   
-                                            <div class="card col-12 mt-2" onclick="window.location.href='/watchdog/${dog_id}'">
+                                            <div id="card-onclick"  onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">
                                               <img src="static/missing/${card_img}" class="card-img-top" alt="…">
                                               <div class="card-body">
-                                                <h5 class="card-title">${dogName}</h5>
-                                                <p class="card-text">${lostAddress}</p>  
+                                                <h5 class="card-title">강아지 이름: ${dogName}</h5>
+                                                <p class="card-text">잃어버린 위치: ${lostAddress}</p>  
                                               </div>
                                             `
                         $('#cards-box').append(temp_html)
@@ -230,9 +244,9 @@
       <div class="field">
         <p class="control">
           <!-- 검색창 -->
-        <div class="container">
+        <div class="container" style="background-color: wheat; border-radius:50px;">
           <br />
-          <div class="row justify-content-center">
+          <div class="row justify-content-center"  style="margin-bottom:20px;">
             <div class="col-10 col-md-10 col-lg-9">
               <form class="card card-sm">
                 <div class="card-body row no-gutters align-items-center">
@@ -247,7 +261,7 @@
                   <!-- 검색 버튼 id : search_btn -->
                   <div class="col-auto">
                     <button class="btn btn-lg btn-warning" type="button" id="search_btn" onclick="search_dog_name()">
-                      Search
+                      검색하기
                     </button>
                   </div>
                   <!--end of col-->
@@ -256,11 +270,13 @@
             </div>
             <!--end of col-->
           </div>
+          <div class ="card-group"  id= "cards-box"></div>
         </div>
         </p>
+  
       </div>
     </div>
-    <div  id= "cards-box"></div>
+    
     <div id="map"></div>
   </section>
   {% endblock %}

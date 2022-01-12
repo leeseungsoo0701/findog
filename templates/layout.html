@@ -70,6 +70,11 @@
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
           <div class="navbar-item">
+            {% if username %}
+            <div class="mr-3">{{ username }}</div>
+            {% else %}
+            <div class="mr-3">게스트</div>
+            {% endif %}
             <button type="button" class="btn btn-primary mr-1">
               <a onclick="window.location.href='/post'">글쓰기</a>
             </button>
@@ -84,7 +89,7 @@
             <button type="button" class="btn mr-1 btn btn-secondary">
               <a onclick="sign_out()">로그아웃</a>
             </button>
-            <div class="mr-3">{{ username }}</div>
+
             {% endif %}
           </div>
         </div>

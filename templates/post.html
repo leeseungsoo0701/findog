@@ -78,7 +78,7 @@
     {% extends 'layout.html' %} {% block content %}
     <div class="container">
       <section class="section is-primary">
-        <h1 class="title">글작성하기</h1>
+        <h1 class="title" style="text-align:center; margin-bottom: 8%;">강아지를 찾습니다!</h1>
 
         <form
           class="row g-3"
@@ -105,7 +105,7 @@
               class="form-control"
               id="dogName"
               name="dogName"
-              placeholder="‘강아지 이름 / 견종’ 방식으로 입력."
+              placeholder="강아지 이름을 입력해주세요."
               required
             />
           </div>
@@ -118,7 +118,7 @@
               class="form-control"
               id="lostAddress"
               name="lostAddress"
-              placeholder="잃어버린 위치의 구/ 동까지 입력해주세요."
+              placeholder="잃어버린 위치의 구/ 동 형식으로 입력해주세요."
               required
             />
           </div>
@@ -148,7 +148,7 @@
               id="contentArea2"
               name="contentArea2"
               rows="6"
-              placeholder="강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
+              placeholder="강아지를 잃어버렸을 때, 털 길이, 털 색상, 당시의 옷 및 외관의 특징에 대해서 적어주세요."
               required
             ></textarea>
           </div>
@@ -163,14 +163,14 @@
               class="form-control"
               name="callArea"
               id="callArea"
-              rows="1"
+              rows="3"
               placeholder="직접 연락을 받고자 하시는 분은 연락처 혹은 이메일을 작성해주세요. "
             ></textarea>
           </div>
 
-          <div class="mb-3">
+          <div class="mb-5">
             <label for="formFileMultiple" class="form-label"
-              >강아지 사진을 올려주세요.</label
+              ><strong>강아지 사진을 꼭 올려주세요.</strong></label
             >
             <input
               class="form-control"
@@ -183,17 +183,17 @@
 
           </div>
 
-          <span class="text-center">지도</span>
+          <span class="text-center"><strong>지도상 위치를 찍어주세요.</strong></span>
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
           <div id ="location" style="display: none;"><textarea id="x" name="locationx" class="form-control"></textarea> <textarea id="y" name="locationy" class="form-control"></textarea></div>
-          <div class="d-grid gap-2 col-6 mx-auto">
+          <div class="d-grid gap-2 col-5 mx-auto">
             <button
               type="submit"
               class="btn btn-primary btn-lg"
               id="execute"
               value="execute"
             >
-              작성완료
+              <strong style="color:white">작성완료</strong>
             </button>
           </div>
         </form>

@@ -225,7 +225,13 @@
         class="hero-body has-text-centered"
         style="padding: 30px; margin: auto"
       >
-        <h1 class="title">FinDog</h1>
+        <h1 class="title">
+          <img
+            src="../static/logo/findog_logo.png"
+            style="width: 20%; heigth: 20%"
+            onclick="window.location.href = '/'"
+          />
+        </h1>
         <h3 class="subtitle">행복한 세상의 강아지</h3>
       </div>
     </section>
@@ -285,7 +291,9 @@
                 </button>
               </nav>
               <hr />
-              <h4 class="mb-3" style="color: white">아직 회원이 아니라면</h4>
+              <h4 class="mb-3" style="color: white; font-size: 20px">
+                아직 회원이 아니라면
+              </h4>
               <nav class="level is-mobile">
                 <button
                   class="level-item button is-sparta"
@@ -294,6 +302,13 @@
                   회원가입하기
                 </button>
               </nav>
+              <button
+                class="level-item button is-sparta"
+                onclick="window.location.href = '/'"
+                style="background-color: #007a4c; font-size: 20px"
+              >
+                비회원으로 시작!
+              </button>
             </div>
 
             <div id="sign-up-box" class="is-hidden">
