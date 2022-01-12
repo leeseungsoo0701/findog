@@ -88,7 +88,7 @@
           
         >
           <div class="col-md-6">
-            <label for="title" class="form-label">제목</label>
+            <label for="title" class="form-label">제목*</label>
             <input
               type="text"
               class="form-control"
@@ -99,7 +99,7 @@
             />
           </div>
           <div class="col-md-6">
-            <label for="dogName" class="form-label">강아지 이름</label>
+            <label for="dogName" class="form-label">강아지 이름*</label>
             <input
               type="text"
               class="form-control"
@@ -111,7 +111,7 @@
           </div>
           <div class="col-12">
             <label for="lostAddress" class="form-label"
-              >강아지를 잃어버린 위치</label
+              >강아지를 잃어버린 위치*</label
             >
             <input
               type="text"
@@ -124,7 +124,7 @@
           </div>
           <div class="col-12">
             <label for="contentArea" class="form-label">
-              1. 강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요.</label
+              1. 강아지를 잃어버렸을 당시의 상황을 자세하게 작성해주세요.*</label
             >
 
             <textarea
@@ -140,7 +140,7 @@
           <div class="col-12">
             <label for="contentArea2" class="form-label">
               2. 강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에
-              대해서 적어주세요.</label
+              대해서 적어주세요.*</label
             >
 
             <textarea
@@ -170,7 +170,7 @@
 
           <div class="mb-5">
             <label for="formFileMultiple" class="form-label"
-              ><strong>강아지 사진을 꼭 올려주세요.</strong></label
+              ><strong>강아지 사진을 꼭 올려주세요.*</strong></label
             >
             <input
               class="form-control"
@@ -183,9 +183,9 @@
 
           </div>
 
-          <span class="text-center"><strong>지도상 위치를 찍어주세요.</strong></span>
+          <span class="text-center"><strong>지도상 위치를 찍어주세요.*</strong></span>
           <div id="map" class="d-grid gap-2 col-9 mx-auto mapContainer"></div>
-          <div id ="location" style="display: none;"><textarea id="x" name="locationx" class="form-control"></textarea> <textarea id="y" name="locationy" class="form-control"></textarea></div>
+          <div id ="location" style="display: none;"><textarea id="x" name="locationx" class="form-control" required></textarea> <textarea id="y" name="locationy" class="form-control" required></textarea></div>
           <div class="d-grid gap-2 col-5 mx-auto">
             <button
               type="submit"

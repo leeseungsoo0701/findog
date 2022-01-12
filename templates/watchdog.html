@@ -73,7 +73,7 @@
         <div style="background-color: bisque; padding: 20px">
           <div class="row g-3">
             <div class="col-md-6">
-              <label for="title" class="form-label">제목</label>
+              <label for="title" class="form-label">제목*</label>
 
               <div id="title" class="card" style="width: 18rem">
                 <div class="card-body">
@@ -82,7 +82,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <label for="dogName" class="form-label">강아지 이름</label>
+              <label for="dogName" class="form-label">강아지 이름*</label>
               <div id="dogName" class="card" style="width: 18rem">
                 <div class="card-body">
                   <h5 class="card-title">{{dog['dogName']}}</h5>
@@ -98,7 +98,7 @@
             <div class="col-12">
               <label for="contentArea" class="form-label">
                 1. 강아지를 잃어버렸을 당시의 상황을 자세하게
-                작성해주세요.</label
+                작성해주세요.*</label
               >
               <div
                 id="contentArea"
@@ -114,7 +114,7 @@
             <div class="col-12">
               <label for="contentArea2" class="form-label">
                 2. 강아지를 잃어버렸을 때, 털 길이, 당시의 옷 및 외관의 특징에
-                대해서 적어주세요.</label
+                대해서 적어주세요.*</label
               >
 
               <div
@@ -196,7 +196,7 @@
                         />
                         <div class="row my-3">
                           <div class="col">
-                            <label for="title" class="form-label">닉네임</label>
+                            <label for="title" class="form-label">닉네임*</label>
                             <input
                               type="text"
                               class="form-control"
@@ -205,23 +205,12 @@
                               placeholder="닉네임을 입력해주세요."
                             />
                           </div>
-                          <div class="col">
-                            <label for="dogName" class="form-label"
-                              >강아지 이름</label
-                            >
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="dogName"
-                              name = "dogName"
-                              placeholder="강아지 이름을 입력해주세요."
-                            />
-                          </div>
+                          
                         </div>
                       </div>
                       <div class="col" style="margin-bottom: 3%;">
                         <label for="dogFace" class="form-label"
-                          >강아지 외관</label
+                          >강아지 외관*</label
                         >
                         <textarea
                           type="text"
@@ -234,7 +223,7 @@
                       </div>
                       <div class="col">
                         <label for="findArea" class="form-label"
-                          >발견하신 곳을 상세하게 설명해주세요.</label
+                          >발견하신 곳을 상세하게 설명해주세요.*</label
                         >
                         <textarea
                           type="text"
@@ -252,7 +241,7 @@
                         class="btn btn-secondary"
                         data-bs-dismiss="modal"
                       >
-                        최소
+                        취소
                       </button>
                       <button type="submit" class="btn btn-primary">
                         감사합니다!

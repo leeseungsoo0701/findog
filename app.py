@@ -378,7 +378,7 @@ def sign_in():
         payload = {
 
         'id': username_receive,
-        'exp': datetime.utcnow() + timedelta(seconds=1000),  # 로그인 24시간 유지
+        'exp': datetime.utcnow() + timedelta(seconds=60*60*1),  # 로그인 24시간 유지
 
 
         }
