@@ -70,9 +70,13 @@ def upload_files():
     if not os.path.isdir(path):
         os.mkdir(path)
     path = os.path.join(path, fname)
+    split_path = path.split('/')
+    print(split_path)
+    real_path = str(split_path[6] +'/'+ split_path[7] +'/'+ split_path[8])
+    print(real_path)
     f.save(path)
     doc = {
-        "dog-images": path,
+        "dog-images": real_path,
         "callArea": callArea,
         'title' : title,
         'dogName': dogName,
@@ -184,9 +188,26 @@ def post():
 def register():
     return render_template('register.html')
 
-@app.route('/watchdog')
-def watchdog():
-    return render_template('watchdog.html')
+@app.route('/watchdog/<path:subpath>')
+def watchdog(subpath):
+    dog = db.post.find_one({'_id': ObjectId(subpath)})
+    return render_template("watchdog.html", dog=dog)
+
+
+
+###############################
+# @app.route('/card_id', methods=['POST'])
+# def card_id():
+#     dog_id = request.form['dog_id']
+#     print(dog_id)
+#     select_card = db.post.find({'_id': ObjectId(dog_id)})
+#     articles = objectIdDecoder(select_card)
+#     return render_template('watchdog.html', articles=articles)
+
+
+
+
+
 
 
 #################################
@@ -345,21 +366,6 @@ def delete_get():
     #all_alti = str(articles)
     print(articles)
     return jsonify({'all_articles': articles})
-
-###############################
-@app.route('/card_id', methods=['POST'])
-def card_id():
-    dog_id = request.form['dog_id']
-    print(dog_id)
-    select_card = db.post.find({'_id': ObjectId(dog_id)})
-    return render_template('watchdog.html', dog_id = select_card)
-
-
-
-
-
-
-    
 
 
 

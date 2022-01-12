@@ -86,11 +86,13 @@
 
                         let temp_html = `   
                                             <div class="card col-12 mt-2" id="card-onclick" onclick="searchcard('${dog_id}')">
+                                              <a href ="/watchdog/${dog_id}">
                                               <img src="static/missing/${card_img}" class="card-img-top" alt="…">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
                                               </div>
+                                            </a>
                                             </div>
                                             `
                         $('#cards-box').append(temp_html)
@@ -111,7 +113,7 @@
         type:'POST', // 메소드(get, post, put 등)
         data:{'dog_id':dog_id}, //보낼 데이터
         success: function(response) {
-            
+          document.write(response)
         },
         error: function(err) {
             

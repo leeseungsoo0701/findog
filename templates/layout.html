@@ -76,10 +76,11 @@
             </button>
             {% else %}
             <!-- userName이 존재하지 않는경우(로그인x) -->
+
             <button type="button" class="btn mr-1 btn btn-secondary">
               <a onclick="sign_out()">로그아웃</a>
             </button>
-            <div class="mr-3">{{ username }}</div>
+            <div class="mr-3">{{ username }}님</div>
             {% endif %}
           </div>
         </div>
