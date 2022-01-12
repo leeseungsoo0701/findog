@@ -53,50 +53,54 @@ def authenticated_user(request):
     except Exception:
         return None;
 
+
+
+
+
+# 연우 refact : 전체 삭제
 ######################## 이승수 이미지 업로드
-@app.route('/filesearch', methods=['POST'])
-def upload_files():
-
-        auth_user = authenticated_user(request)
-        f = request.files['file']
-        title = request.form['title']
-        dogName = request.form['dogName']
-        lostAddress = request.form['lostAddress']
-        contentArea = request.form['contentArea']
-        contentArea2 = request.form['contentArea2']
-        callArea = request.form['callArea']
-        locationx = request.form['locationx']
-        locationy = request.form['locationy']
-        print('location—————'+locationx) 
-        print('location—————'+locationy) 
-
-        
-        fname = secure_filename(f.filename)
-        path = os.path.join(os.path.join(app.root_path, 'static/missing'))
-        if not os.path.isdir(path):
-            os.mkdir(path)
-        path = os.path.join(path, fname)
-        split_path = path.split('/')
-        print(split_path)
-        img_length = len(split_path)
-        real_path = str(split_path[img_length-3] +'/'+ split_path[img_length-2] +'/'+ split_path[img_length-1])  # 경로는 동일하다.
-        print(real_path)
-        f.save(path)
-
-
-        doc = {
-            "dog-images": real_path,
-            "callArea": callArea,
-            'title' : title,
-            'dogName': dogName,
-            'lostAddress': lostAddress,
-            'contentArea': contentArea,
-            'contentArea2': contentArea2,
-            'locationx':locationx,
-            'locationy':locationy
-        }
-        db.post.insert_one(doc)
-        return render_template('index.html',username=auth_user)
+# @app.route('/filesearch', methods=['POST'])
+# def upload_files():
+#
+#         auth_user = authenticated_user(request)
+#         f = request.files['file']
+#         title = request.form['title']
+#         dogName = request.form['dogName']
+#         lostAddress = request.form['lostAddress']
+#         contentArea = request.form['contentArea']
+#         contentArea2 = request.form['contentArea2']
+#         callArea = request.form['callArea']
+#         locationx = request.form['locationx']
+#         locationy = request.form['locationy']
+#         print('location—————'+locationx)
+#         print('location—————'+locationy)
+#
+#
+#         fname = secure_filename(f.filename)
+#         path = os.path.join(os.path.join(app.root_path, 'static/missing'))
+#         if not os.path.isdir(path):
+#             os.mkdir(path)
+#         path = os.path.join(path, fname)
+#         split_path = path.split('/')
+#         print(split_path)
+#         img_length = len(split_path)
+#         real_path = str(split_path[img_length-3] +'/'+ split_path[img_length-2] +'/'+ split_path[img_length-1])  # 경로는 동일하다.
+#         f.save(path)
+#
+#
+#         doc = {
+#             "dog-images": real_path,
+#             "callArea": callArea,
+#             'title' : title,
+#             'dogName': dogName,
+#             'lostAddress': lostAddress,
+#             'contentArea': contentArea,
+#             'contentArea2': contentArea2,
+#             'locationx':locationx,
+#             'locationy':locationy
+#         }
+#         db.post.insert_one(doc)
+#         return render_template('index.html',username=auth_user)
 
 
 ############### 
@@ -137,7 +141,11 @@ def upload_modal():
         # list_dog_list = objectIdDecoder(list_dog)
         # print(list_dog_list)
         dog = db.post.find_one({'_id':ObjectId(page_id)})
-        return render_template('watchdog.html', dog=dog, list_dog=list_dog)
+        redirect_url = '/watchdog/'+str(page_id) # 연우 refact : redirect url 추가
+        return redirect(redirect_url) # 연우 refact : redirect 로 변경
+        # return render_template('watchdog.html', dog=dog, list_dog=list_dog) # 연우 refact : 삭제
+
+
 
 
 ######################
@@ -203,15 +211,56 @@ import hashlib
 @app.route('/')
 def home():
     username= authenticated_user(request)
-    # token_receive = request.cookies.get('mytoken')
-    # try:
-    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    #     user_info = db.users.find_one({"username": payload["id"]})
     return render_template('index.html',username=username)
-    # except jwt.ExpiredSignatureError:
-    #     return redirect(url_for("", msg="로그인 시간이 만료되었습니다."))
-    # except jwt.exceptions.DecodeError:
-    #     return redirect(url_for("", msg="로그인 정보가 존재하지 않습니다."))
+    # 연우 refact : 남아있던 주석들 모두 삭제
+
+# 연우 refact : 함수 추가 ( 위에 함수를 삭제 했으니 이 함수를 그대로 살려주세요 )
+# redirect into '/'
+@app.route('/filesearch',methods=['POST'])
+def upload_file():
+    auth_user = authenticated_user(request)
+    f = request.files['file']
+    title = request.form['title']
+    dogName = request.form['dogName']
+    lostAddress = request.form['lostAddress']
+    contentArea = request.form['contentArea']
+    contentArea2 = request.form['contentArea2']
+    callArea = request.form['callArea']
+    locationx = request.form['locationx']
+    locationy = request.form['locationy']
+    print('location—————' + locationx)
+    print('location—————' + locationy)
+
+    fname = secure_filename(f.filename)
+    path = os.path.join(os.path.join(app.root_path, 'static/missing'))
+    if not os.path.isdir(path):
+        os.mkdir(path)
+    path = os.path.join(path, fname)
+    split_path = path.split('/')
+    print(split_path)
+    img_length = len(split_path)
+    real_path = str(
+        split_path[img_length - 3] + '/' + split_path[img_length - 2] + '/' + split_path[img_length - 1])  # 경로는 동일하다.
+    f.save(path)
+
+    doc = {
+        "dog-images": real_path,
+        "callArea": callArea,
+        'title': title,
+        'dogName': dogName,
+        'lostAddress': lostAddress,
+        'contentArea': contentArea,
+        'contentArea2': contentArea2,
+        'locationx': locationx,
+        'locationy': locationy
+    }
+    db.post.insert_one(doc)
+    return redirect('/')
+
+
+
+
+
 
 
 @app.route('/login')
