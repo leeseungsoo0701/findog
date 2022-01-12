@@ -47,7 +47,11 @@
     >
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          <i class="fas fa-dog"></i>
+          <img
+            src="../static/logo/notion_logo.svg"
+            alt="github 바로가기"
+            style="width: 100%; height: 100%"
+          />
         </a>
 
         <a
@@ -88,12 +92,27 @@
     </nav>
 
     {% block content %} {% endblock %}
-    <footer class="footer">
+    <footer class="footer" style="padding-bottom: 3rem">
       <div class="content has-text-centered">
         <p>
           <strong>항해 5기 6조</strong> by 이승수, 이연우, 이현규, 박민우<br />
-          <a href="https://jgthms.com">github</a>
-          <a href="http://opensource.org/licenses/mit-license.php">Notion</a>.
+          <a
+            href="https://github.com/leeseungsoo0701/findog/tree/dev"
+            target="_blank"
+            ><img
+              src="../static/logo/GitHub_Logo.png"
+              alt="github 바로가기"
+              style="width: 10%; height: 10%"
+          /></a>
+          <a
+            href="https://marshy-abacus-5a4.notion.site/600ad3aa43d24477af550c75d4e9ef85"
+            target="_blank"
+            ><img
+              src="../static/logo/notion_logo.svg"
+              alt="notion 바로가기"
+              style="width: 10%; height: 10%"
+            /> </a
+          >.
         </p>
       </div>
     </footer>

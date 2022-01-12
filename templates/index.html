@@ -197,15 +197,15 @@
                         let lostAddress = search_list[i]['lostAddress']
                         console.log(dogName)
                         let split_dog = dog_images.split('/')
+                        let dog_id =search_list[i]['_id']
                         let length = split_dog.length
                         console.log(length)
                         let card_img = split_dog[length-1]
                         console.log(card_img)
 
                         let temp_html = `   
-                                            <div class="card col-12 mt-2">
+                                            <div class="card col-12 mt-2" onclick="window.location.href='/watchdog/${dog_id}'">
                                               <img src="static/missing/${card_img}" class="card-img-top" alt="…">
-                                              <a href ="/watchdog/${dog_id}">
                                               <div class="card-body">
                                                 <h5 class="card-title">${dogName}</h5>
                                                 <p class="card-text">${lostAddress}</p>  
