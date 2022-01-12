@@ -72,17 +72,17 @@
 
 
                         let lostAddress = main_list[i]['lostAddress']
-                        console.log(dogName)
+
 
                         let dog_id =main_list[i]['_id']
-                        console.log(dog_id)
+
                         
               
                         let split_dog = dog_images.split('/')
                         let length = split_dog.length
-                        console.log(length)
+
                         let card_img = split_dog[length-1]
-                        console.log(card_img)
+
 
                         let temp_html = `   
                                             <div class="card col-12 mt-2" id="card-onclick" onclick="searchcard('${dog_id}')">
@@ -107,7 +107,7 @@
     }
 
     function searchcard(dog_id){    
-      console.log(dog_id)  
+
       $.ajax({
         url:'/card_id', //request 보낼 서버의 경로
         type:'POST', // 메소드(get, post, put 등)
@@ -127,8 +127,8 @@
 
      //네이버 MAP API 
     $(document).ready(function () {
-      let newxarray = new Array();
-      let newyarray = new Array();
+      var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
+      var areaArr2 = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
       $.ajax({
         url:'/getlocation', //request 보낼 서버의 경로
         type:'GET', // 메소드(get, post, put 등)
@@ -136,49 +136,44 @@
         success: function(response) {
             //서버로부터 정상적으로 응답이 왔을 때 실행
             let location = response['main_location']
-            console.log(location)
+            console.log('location-------' + location)
+
+
             for (let i =0; i<location.length;i++){
-              let x = location[i]['locationx']
-              let y = location[i]['locationy']
-              let z = y+','+x
+              var x = location[i]['locationx']
+              var y = location[i]['locationy']
 
-              console.log(typeof(x))
-
-              newxarray.push(x)
-              newyarray.push(y)
+              areaArr.push(x)
+              areaArr2.push(y)
+              
               
             }
-            console.log(newxarray,newyarray)
+
+            var map = new naver.maps.Map('map', {
+              center: new naver.maps.LatLng(37.552758094502494, 126.98732600494576), //지도 시작 지점
+             zoom: 15
+         });
+      
+      
+         for (var i = 0; i < areaArr.length; i++) {
+              // 지역을 담은 배열의 길이만큼 for문으로 마커와 정보창을 채워주자 !
+      
+             var marker = new naver.maps.Marker({
+                 map: map,
+                  position: new naver.maps.LatLng(areaArr2[i], areaArr[i]) // 지역구의 위도 경도 넣기
+             });
+         }
         },
+
+
+
         error: function(err) {
             //서버로부터 응답이 정상적으로 처리되지 못햇을 때 실행
         }
     });
-    
-  
-      let map = new naver.maps.Map('map', {
-        center: new naver.maps.LatLng(37.4981125, 127.0379399), // 지도의 중심 좌표
-        zoom: 10, // 확대 레벨
-        zoomControl: true, // 확대, 축소 아이콘 생성
-        zoomControlOpions: {
-          style: naver.maps.ZoomControlStyle.SMALL,
-          position: naver.maps.Position.TOP_LEFT
-        }
-      });
-      for (var i = 0; i<newxarray.length; i++){
-        let marker = new naver.maps.Marker({
-          position: new naver.maps.LatLng(newyarray[i], newxarray[i]), // 마커 좌표 (이후 for문으로 여러개 출력 가능)
-          map: map, // 위 설정한 'map' 이름 가져오기
-          icon: "{{ url_for('static', filename='rtan_heart.png') }}" // 마커 아이콘(찾습니다, 봤어요 구분)
-        });
-        marker.setMap(map)
-        console.log(newxarray[i])
-      }
 
-      //     naver.maps.Event.addListener(map, 'click', function(e) {
-      //     marker.setPosition(e.coord);
-      // });
 
+      
     })
 
 

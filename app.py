@@ -56,7 +56,7 @@ def authenticated_user(request):
 ######################## 이승수 이미지 업로드
 @app.route('/filesearch', methods=['POST'])
 def upload_files():
-    if methods == "POST":
+
         auth_user = authenticated_user(request)
         f = request.files['file']
         title = request.form['title']
@@ -78,7 +78,8 @@ def upload_files():
         path = os.path.join(path, fname)
         split_path = path.split('/')
         print(split_path)
-        real_path = str(split_path[6] +'/'+ split_path[7] +'/'+ split_path[8])  # 경로는 동일하다.
+        img_length = len(split_path)
+        real_path = str(split_path[img_length-3] +'/'+ split_path[img_length-2] +'/'+ split_path[img_length-1])  # 경로는 동일하다.
         print(real_path)
         f.save(path)
 
