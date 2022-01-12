@@ -38,37 +38,25 @@
 
     <script>
       $(document).ready(function () {
+        console.log("{{dog}}");
+        let x = '{{dog["locationy"]}}';
+        console.log("x" + x);
+        let y = '{{dog["locationx"]}}';
+        console.log("y" + y);
         var map = new naver.maps.Map("map", {
+          center: new naver.maps.LatLng(x, y), //지도 시작 지점
           zoom: 15,
-          center: new naver.maps.LatLng(37.3614483, 127.1114883),
-          mapTypeControl: true,
         });
-        // 커서를 올리면 포인터로 나타내기
-        map.setCursor("pointer");
-        // 단 하나의 마커 -> 이 값을 받아서 사용 lat:__,lng:__
-        var curMarker;
-        var menuLayer = $(
-          '<div style="position:absolute;z-index:10000;background-color:#fff;border:solid 1px #333;padding:10px;display:none;"></div>'
-        );
 
-        map.getPanes().floatPane.appendChild(menuLayer[0]);
-
-        naver.maps.Event.addListener(map, "click", function (e) {
-          // if (curMarker != null) curMarker.setMap(curMarker);
-
-          curMarker = new naver.maps.Marker({
-            position: e.coord,
-            map: map,
-          });
-          console.log(`현재 위치 ${curMarker.position}`);
-          // submit(curMarker.getPosition());
+        var marker = new naver.maps.Marker({
+          map: map,
+          position: new naver.maps.LatLng(x, y), // 지역구의 위도 경도 넣기
         });
       });
     </script>
   </head>
   <body>
     {% extends 'layout.html' %} {% block content %}
-
     <div class="container">
       <section class="section is-primary">
         <h1 class="title text-center">봤어요!</h1>
