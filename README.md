@@ -17,13 +17,13 @@
 ## ✍ 팀원 소개 및 역할 분배
 여러 기술 스택을 배우고, 팀원간에 논의를 통해 이슈를 해결하다보니 대부분 공통 작업으로 진행했습니다. 
 ### 😀 이승수 Full-Stack, 팀장
-[github page](https://github.com/leeseungsoo0701)
+<!-- [github page](https://github.com/leeseungsoo0701) -->
 ### 😀 이현규 Full-Stack
-[github page](https://github.com/Aiden76005588)
+<!-- [github page](https://github.com/Aiden76005588) -->
 ### 😀 이연우 Full-Stack
-[github page](https://github.com/ynoolee)
+<!-- [github page](https://github.com/ynoolee) -->
 ### 😀 박민우 Full-Stack
-[github page](https://github.com/mc0ding)
+<!-- [github page](https://github.com/mc0ding) -->
 
 ***
 
