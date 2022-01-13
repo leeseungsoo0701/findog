@@ -10,8 +10,8 @@
 
 ### 2. 기술 스택 소개 
 
-![KakaoTalk_Image_2022-01-13-15-44-18](https://user-images.githubusercontent.com/66179677/149279103-a03b5fce-352a-486b-a6ba-41a3a955464b.png)
 
+![KakaoTalk_Image_2022-01-13-16-24-51](https://user-images.githubusercontent.com/66179677/149284493-aa737462-b8ac-469d-a859-e63c670d7c86.png)
 
 
 ## ✍ 팀원 소개 및 역할 분배
