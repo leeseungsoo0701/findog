@@ -309,6 +309,7 @@ def register():
 def watchdog(subpath):
     auth_member = authenticated_user(request)
     dog = db.post.find_one({'_id': ObjectId(subpath)})
+    print('dog             ' + str(dog))
     list_dog = list(db.lost.find({'page_id': subpath}))
     return render_template("watchdog.html", dog=dog, list_dog=list_dog, username=auth_member)
 
@@ -466,8 +467,10 @@ def main_card():
 @app.route('/api/mainpage/search', methods=['POST'])
 def search_dog():
     search_dog = request.form['search_dog']
-    search_list = list(db.post.find({'dogName': search_dog},{'_id': False}).sort("_id",-1)) ###Card 최신순
+    search_list = objectIdDecoder(list(db.post.find({'dogName': search_dog}).sort("_id",-1))) ###Card 최신순
+
     return jsonify({'search_list': search_list})
+
 
 ########################### 카드에 해당하는 ID 변환
 def objectIdDecoder(list):
