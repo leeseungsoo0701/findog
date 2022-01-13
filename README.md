@@ -9,10 +9,9 @@
 그 중 감염병 관련 시스템을 구현하였고, 실시간 데이터를 토대로 차트를 제공합니다. 
 
 ### 2. 기술 스택 소개 
-![Untitled](https://user-images.githubusercontent.com/37296369/111068232-4a24eb00-850b-11eb-9352-686d8fb00847.png)
-
 
 ![KakaoTalk_Image_2022-01-13-15-44-18](https://user-images.githubusercontent.com/66179677/149279103-a03b5fce-352a-486b-a6ba-41a3a955464b.png)
+
 
 
 ## ✍ 팀원 소개 및 역할 분배
