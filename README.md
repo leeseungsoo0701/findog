@@ -25,6 +25,8 @@
 ### 😀 박민우 Full-Stack
 [github page](https://github.com/mc0ding)
 
+***
+
 1. **NoSQL data modeling** 🌟  
 RDBMS와 NoSQL의 차이를 이해. Data를 왜 NoSQL에 저장하여 쓰는지 경험으로 알 수 있었다.</br>
 MongoDB에 저장된 Data는 원하는 형태로 꺼내와서 사용하기도 쉽다.
