@@ -89,7 +89,8 @@
       history.replaceState({}, null, location.pathname);
       
     }
-      }
+    
+
     //메인페이지 보여줄 시 GET APPEND(temp_html)을 이용한 모든 dog_card 보여주기
     $(document).ready(function () {
       $.ajax({
@@ -103,20 +104,14 @@
                     for (let i = 0; i < main_list.length; i++) {
                         let dogName = main_list[i]['dogName']
                         let dog_images = main_list[i]['dog-images']
-
-
                         let lostAddress = main_list[i]['lostAddress']
 
-
                         let dog_id =main_list[i]['_id']
-
-                        
-              
+                            
                         let split_dog = dog_images.split('/')
                         let length = split_dog.length
 
                         let card_img = split_dog[length-1]
-
 
                         let temp_html = `
                                             <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">            
@@ -134,30 +129,8 @@
 
         },
       })
-    });
-
-    function alert2(){
-      alert('성공입니다')
-    }
-
-    function searchcard(dog_id){    
-
-      $.ajax({
-        url:'/card_id', //request 보낼 서버의 경로
-        type:'POST', // 메소드(get, post, put 등)
-        data:{'dog_id':dog_id}, //보낼 데이터
-        success: function(response) {
-          document.write(response)
-        },
-        error: function(err) {
-            
-        }
-    });
-        }
-
-
-
-
+    });}
+  
 
      //네이버 MAP API 
     $(document).ready(function () {
@@ -228,13 +201,13 @@
                             let dogName = search_list[i]['dogName']
                             let dog_images = search_list[i]['dog-images']
                             let lostAddress = search_list[i]['lostAddress']
-                            console.log(dogName)
+
                             let split_dog = dog_images.split('/')
                             let dog_id =search_list[i]['_id']
                             let length = split_dog.length
-                            console.log(length)
+
                             let card_img = split_dog[length-1]
-                            console.log(card_img)
+
     
                             let temp_html = `   
                                                 <div id="card-onclick"  onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">

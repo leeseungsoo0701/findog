@@ -45,12 +45,11 @@
     </style>
 
     <script>
+      // 작성자가 설정한 위치를 표시해주고 map을 보여주는 기능
       $(document).ready(function () {
         console.log("{{dog}}");
         let x = '{{dog["locationy"]}}';
-        console.log("x" + x);
         let y = '{{dog["locationx"]}}';
-        console.log("y" + y);
         var map = new naver.maps.Map("map", {
           center: new naver.maps.LatLng(x, y), //지도 시작 지점
           zoom: 15,
@@ -64,18 +63,15 @@
         console.log("{{dog_list}}")
       });
 
-//댓글 이미지
+//댓글 리스트 클릭 시 이미지 가져와서 보이기
       function lostDogImage(dog_id) {
-        console.log('-------------' + dog_id)
         $.ajax({
         type: 'POST',
         url: '/modal_image',
         data: {dog_id: dog_id},
         success: function (response) {
             let dog_image = response['lostDogImage']
-            console.log('{dog_image}'+dog_image)
             temp_html = `<img src="../${dog_image}"/>`
-            console.log('temp_html:                     ' + temp_html)
             $('#lostDogImage').empty()
             $('#lostDogImage').append(temp_html)
       }
