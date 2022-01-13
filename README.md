@@ -57,7 +57,7 @@ MQTT와 WEBSOCKET 을 이용해 Nuxt에 데이터를 전송 line, bar 타입의 
 
 ### 😀 박민우 Full-Stack
 
-[github page](https://github.com/Aiden76005588)
+[github page](https://github.com/90lastday)
 
 
 ## ✍ 기획
