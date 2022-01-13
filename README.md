@@ -5,8 +5,8 @@
 ![](https://img.shields.io/badge/Project-FindDog-blue?style=for-the-badge)
 
 ### 1. About
-이 프로젝트는 gractor 기업협업 프로젝트로, 회사에 없는 다양한 **재난 대응 시스템(DRMS)** 를 제안하기 위해 경쟁사 사이트를 분석하고 클론한 서비스입니다.  
-그 중 감염병 관련 시스템을 구현하였고, 실시간 데이터를 토대로 차트를 제공합니다. 
+강아지를 잃어버렸을 경우, 주인이 전단지를 돌리는 것보다 온라인 상에 글을 작성하는 것이 다른 사람들로 하여금 더 많은 정보를 얻을 수 있다고 판단하였다.
+위치를 정확하게 작성할 수 있고 그 위치에 따른 댓글 기능으로 주인이 본인의 강아지가 맞는지 판단할 수 있는 웹 서비스이다.
 
 ### 2. 기술 스택 소개 
 
@@ -15,9 +15,9 @@
 
 
 ## ✍ 팀원 소개 및 역할 분배
-사내 기술 스택을 배우고, 팀원간에 논의를 통해 이슈를 해결하다보니 대부분 공통 작업으로 진행했습니다. 
-### 😀 김선미 Full-Stack, 팀장
-[github page](https://github.com/ddubbu)
+여러 기술 스택을 배우고, 팀원간에 논의를 통해 이슈를 해결하다보니 대부분 공통 작업으로 진행했습니다. 
+### 😀 이승수 Full-Stack, 팀장
+[github page](https://github.com/leeseungsoo0701)
 1. **원격 서버 접속 및 환경 구축**  
 public ip 터널링 및 포트 포워딩을 통해 domain `[nas.gractor.com](http://nas.gractor.com)` 으로 사내 서버에 접근
 2. **NoSQL data modeling** 🌟  
@@ -48,6 +48,16 @@ MQTT - WEBSOCKET - NUXT
 MQTT와 WEBSOCKET 을 이용해 Nuxt에 데이터를 전송 line, bar 타입의 차트를 그렸습니다.
 5. **로그인 및 세션 관리**  
 브라우저에서 GET 요청 시 쿠키에 저장된 세션을 토대로 로그인 상태를 갱신한다. 이를 통해 새로고침 및 같은 브라우저에서 로그인 상태 공유 이슈를 해결했다.
+
+### 😀 이연우 Full-Stack
+
+[github page](https://github.com/Aiden76005588)
+
+1.회원가입 로그인 비회원 글쓰기 지도pai 마커
+
+### 😀 박민우 Full-Stack
+
+[github page](https://github.com/Aiden76005588)
 
 
 ## ✍ 기획
