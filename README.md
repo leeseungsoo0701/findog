@@ -2,7 +2,7 @@
 강아지를 잃어버렸을 때, 사람들의 네트워크를 통한 강아지를 찾고 또 제보할 수 있는 웹 서비스
 
 ## ✍ 프로젝트 소개
-![](https://img.shields.io/badge/Project-gractorDRMS-blue?style=for-the-badge)
+![](https://img.shields.io/badge/Project-FindDog-blue?style=for-the-badge)
 
 ### 1. About
 이 프로젝트는 gractor 기업협업 프로젝트로, 회사에 없는 다양한 **재난 대응 시스템(DRMS)** 를 제안하기 위해 경쟁사 사이트를 분석하고 클론한 서비스입니다.  
