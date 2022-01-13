@@ -55,6 +55,16 @@ def authenticated_user(request):
 
 
 
+######################댓글 리스트 이미지 박민우
+@app.route('/modal_image', methods=['POST'])
+def modal_image():
+    dog_id = request.form['dog_id']
+    print('dog_id------------' + dog_id)
+    dog_list = db.lost.find_one({'_id': ObjectId(dog_id)})
+    dog_image = dog_list['dog-images']
+    print(dog_image)
+    return jsonify({'lostDogImage': dog_image})
+
 
 
 # 연우 refact : 전체 삭제
@@ -108,7 +118,7 @@ def authenticated_user(request):
 @app.route('/uploadmodal', methods=['POST'])
 def upload_modal():
         page_id = request.form['page_id']
-        modal_dogName = request.form['dogName']
+
         findArea = request.form['findArea']
         dogFace = request.form['dogFace']
         dog_img = request.files['dog_img']
@@ -131,7 +141,6 @@ def upload_modal():
         doc = {
             "nickname": nickname,
             "page_id": page_id,
-            'dogName': modal_dogName,
             'findArea': findArea,
             'dogFace': dogFace,
             'dog-images': real_path

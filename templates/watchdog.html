@@ -63,6 +63,24 @@
 
         console.log("{{dog_list}}")
       });
+
+//댓글 이미지
+      function lostDogImage(dog_id) {
+        console.log('-------------' + dog_id)
+        $.ajax({
+        type: 'POST',
+        url: '/modal_image',
+        data: {dog_id: dog_id},
+        success: function (response) {
+            let dog_image = response['lostDogImage']
+            console.log('{dog_image}'+dog_image)
+            temp_html = `<img src="../${dog_image}"/>`
+            console.log('temp_html:                     ' + temp_html)
+            $('#lostDogImage').empty()
+            $('#lostDogImage').append(temp_html)
+      }
+    });
+  }
     </script>
   </head>
   <body>
@@ -267,13 +285,39 @@
               
               <tbody>
                 {% for dog in list_dog %}
-                <tr onclick="">
+                <tr 
+                onclick="lostDogImage('{{dog['_id']}}')"
+                data-bs-toggle="modal"
+                data-bs-target="#findModal2">
                   <th scope="row">{{dog['nickname']}}</th>
                   <td>{{dog['findArea']}}</td>
                   <td>{{dog['dogFace']}}</td>
                 </tr>
                 {% endfor %}
-                
+                <div
+                class="modal fade"
+                id="findModal2"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                     <div id="lostDogImage"></div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        취소
+                      </button>
+                  </div>
+                </div>
+              </div>
+            </div>
                 <tr>
                   <th scope="row"></th>
                   <td></td>
