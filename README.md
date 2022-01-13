@@ -11,7 +11,8 @@
 ### 2. 기술 스택 소개 
 ![Untitled](https://user-images.githubusercontent.com/37296369/111068232-4a24eb00-850b-11eb-9352-686d8fb00847.png)
 
-![robo3t](https://user-images.githubusercontent.com/66179677/149279045-42ace372-ff09-4cc2-8046-cf6d4f2553f3.png)
+
+![KakaoTalk_Image_2022-01-13-15-44-18](https://user-images.githubusercontent.com/66179677/149279103-a03b5fce-352a-486b-a6ba-41a3a955464b.png)
 
 
 ## ✍ 팀원 소개 및 역할 분배
