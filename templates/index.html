@@ -1,185 +1,305 @@
-<!DOCTYPE html>
+<!DOCTYPE html>i
 <html lang="en">
-  <head>
-    <!-- Webpage Title -->
-    <title>Home | SWEETER</title>
-    <link
-      rel="shortcut icon"
-      href="{{ url_for('static', filename='favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='favicon.ico') }}"
-      type="image/x-icon"
-    />
-    <meta property="og:title" content="스위터 - 세상을 달달하게" />
-    <meta property="og:description" content="mini project for Web Plus" />
-    <meta
-      property="og:image"
-      content="{{ url_for('static', filename='ogimg.png') }}"
-    />
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Bulma CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
-    />
-    <!-- Font Awesome CSS -->
-    <link
-      href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
+<head>
+  <!-- Webpage Title -->
+  <title>Home | Findog</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" type="image/x-icon" />
+  <link rel="icon" href="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" type="image/x-icon" />
+  <meta property="og:title" content="findog-가족을 찾아드립니다." />
+  <meta property="og:description" content="커뮤니케이션을 통한 반려견 구조 서비스" />
+  <meta property="og:image" content="{{ url_for('static', filename='../static/logo/findog_logo.png') }}" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="{{ url_for('static', filename='mystyle.css') }}"
-      rel="stylesheet"
-    />
+  <!-- Bulma CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+  <!-- Font Awesome CSS -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <script src="{{ url_for('static', filename='myjs.js') }}"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Stylish&display=swap" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet" />
 
-    <script>
-      $(document).ready(function () {
-        get_posts();
-      });
-    </script>
-  </head>
-  <body class="has-navbar-fixed-top">
-    <nav
-      class="navbar is-fixed-top is-white"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img src="{{ url_for('static', filename='logo.png') }}" />
-          <strong
-            class="is-sparta"
-            style="font-family: 'Stylish', sans-serif; font-size: larger"
-            >SWEETER</strong
-          >
-        </a>
-      </div>
-    </nav>
-    <section class="section">
-      <article class="media">
-        <figure class="media-left" style="align-self: center">
-          <a class="image is-32x32" href="/user/{{ user_info.username }}">
-            <img
-              class="is-rounded"
-              src="{{ url_for('static', filename=user_info.profile_pic_real) }}"
-            />
-          </a>
-        </figure>
-        <div class="media-content">
-          <div class="field">
-            <p class="control">
-              <input
-                id="input-post"
-                class="input is-rounded"
-                placeholder="무슨 생각을 하고 계신가요?"
-                onclick='$("#modal-post").addClass("is-active")'
-              />
-            </p>
-          </div>
-        </div>
-      </article>
-      <div class="modal" id="modal-post">
-        <div
-          class="modal-background"
-          onclick='$("#modal-post").removeClass("is-active")'
-        ></div>
-        <div class="modal-content">
-          <div class="box">
-            <article class="media">
-              <div class="media-content">
-                <div class="field">
-                  <p class="control">
-                    <textarea
-                      id="textarea-post"
-                      class="textarea"
-                      placeholder="무슨 생각을 하고 계신가요?"
-                    ></textarea>
-                  </p>
-                </div>
-                <nav class="level is-mobile">
-                  <div class="level-left"></div>
-                  <div class="level-right">
-                    <div class="level-item">
-                      <a class="button is-sparta" onclick="post()"
-                        >포스팅하기</a
-                      >
-                    </div>
-                    <div class="level-item">
-                      <a
-                        class="button is-sparta is-outlined"
-                        onclick='$("#modal-post").removeClass("is-active")'
-                        >취소</a
-                      >
-                    </div>
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <!--naver api ID-->
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=l2wmxs4eij"></script>
+
+  <style>
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+
+    .form-control-borderless {
+      border: none;
+    }
+
+    .form-control-borderless:hover,
+    .form-control-borderless:active,
+    .form-control-borderless:focus {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+    *{
+      box-sizing: border-box;
+      }
+    
+    .maincard{
+      padding:0px; 
+      margin: 10px auto; 
+      border: 2px solid #000; 
+      border-radius:30px; 
+      background-color:white;
+      box-shadow: 4px 8px 8px hsl(0deg 0% 0% / 0.38);
+    }
+
+    .card-img-top {
+      height: 15rem;
+      object-fit: contain;
+      margin-top : 12px;
+
+    }
+    .container {
+      overflow:auto;
+      width:100rem;
+      height:32rem;
+    }
+    .container {
+    -ms-overflow-style: none; /* IE and Edge */
+    
+    }
+   
+
+
+
+  </style>
+
+
+
+  <script>
+    window.onkeydown = function() {
+      var kcode = event.keyCode;
+      if(kcode == 116) {
+      history.replaceState({}, null, location.pathname);
+      
+    }
+      }
+    //메인페이지 보여줄 시 GET APPEND(temp_html)을 이용한 모든 dog_card 보여주기
+    $(document).ready(function () {
+      $.ajax({
+        type: "GET",
+        url: '{{url_for("main_card")}}',
+        data: {
+        },
+        success: function (response) {
+          console.log(response); // 성공하면
+          let main_list = response['main_card']
+                    for (let i = 0; i < main_list.length; i++) {
+                        let dogName = main_list[i]['dogName']
+                        let dog_images = main_list[i]['dog-images']
+
+
+                        let lostAddress = main_list[i]['lostAddress']
+
+
+                        let dog_id =main_list[i]['_id']
+
+                        
+              
+                        let split_dog = dog_images.split('/')
+                        let length = split_dog.length
+
+                        let card_img = split_dog[length-1]
+
+
+                        let temp_html = `
+                                            <div id="card-onclick" onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">            
+                                              <img src="static/missing/${card_img}" class="card-img-top" alt="…" >
+                                              <div class="card-body">
+                                                <h5 class="card-title">강아지 이름: ${dogName}</h5>
+                                                <p class="card-text">잃어버린 위치: ${lostAddress}</p>  
+                                              </div>
+                                            </div>
+                                            `
+
+                                        
+                        $('#cards-box').append(temp_html)
+                                          }
+
+        },
+      })
+    });
+
+    function alert2(){
+      alert('성공입니다')
+    }
+
+    function searchcard(dog_id){    
+
+      $.ajax({
+        url:'/card_id', //request 보낼 서버의 경로
+        type:'POST', // 메소드(get, post, put 등)
+        data:{'dog_id':dog_id}, //보낼 데이터
+        success: function(response) {
+          document.write(response)
+        },
+        error: function(err) {
+            
+        }
+    });
+        }
+
+
+
+
+
+     //네이버 MAP API 
+    $(document).ready(function () {
+      var areaArr = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
+      var areaArr2 = new Array();  // 지역을 담는 배열 ( 지역명/위도경도 )
+      $.ajax({
+        url:'/getlocation', //request 보낼 서버의 경로
+        type:'GET', // 메소드(get, post, put 등)
+        data:{}, //보낼 데이터
+        success: function(response) {
+            //서버로부터 정상적으로 응답이 왔을 때 실행
+            let location = response['main_location']
+            console.log('location-------' + location)
+
+
+            for (let i =0; i<location.length;i++){
+              var x = location[i]['locationx']
+              var y = location[i]['locationy']
+
+              areaArr.push(x)
+              areaArr2.push(y)
+              
+              
+            }
+
+            var map = new naver.maps.Map('map', {
+              center: new naver.maps.LatLng(36.252758094502494, 126.98732600494576), //지도 시작 지점
+             zoom: 7
+         });
+      
+      
+         for (var i = 0; i < areaArr.length; i++) {
+              // 지역을 담은 배열의 길이만큼 for문으로 마커와 정보창을 채워주자 !
+      
+             var marker = new naver.maps.Marker({
+                 map: map,
+                  position: new naver.maps.LatLng(areaArr2[i], areaArr[i]) // 지역구의 위도 경도 넣기
+             });
+         }
+        },
+
+
+
+        error: function(err) {
+            //서버로부터 응답이 정상적으로 처리되지 못햇을 때 실행
+        }
+    });
+    
+      
+    })
+
+
+        //강아지 이름 검색 시 POST AND GET APPEND(temp_html)
+        function search_dog_name() {
+
+          var search_dog = $('#search_dog').val()
+          $.ajax({
+            type: "POST",
+            url: '{{url_for("search_dog")}}',
+            data: {
+              'search_dog': search_dog
+            },
+            success: function (response) {
+              $('#cards-box').empty()   // 검색 시 기존의 카드 empty 후 다시 채우기 만약에 해당사항 없을 시 모든 카드 조회
+              console.log(response); // 성공하면
+              let search_list = response['search_list']
+                        for (let i = 0; i < search_list.length; i++) {
+                            let dogName = search_list[i]['dogName']
+                            let dog_images = search_list[i]['dog-images']
+                            let lostAddress = search_list[i]['lostAddress']
+                            console.log(dogName)
+                            let split_dog = dog_images.split('/')
+                            let dog_id =search_list[i]['_id']
+                            let length = split_dog.length
+                            console.log(length)
+                            let card_img = split_dog[length-1]
+                            console.log(card_img)
+    
+                            let temp_html = `   
+                                                <div id="card-onclick"  onclick="window.location.href='/watchdog/${dog_id}'" class="maincard col-5">
+                                                  <img src="static/missing/${card_img}" class="card-img-top" alt="…">
+                                                  <div class="card-body">
+                                                    <h5 class="card-title">강아지 이름: ${dogName}</h5>
+                                                    <p class="card-text">잃어버린 위치: ${lostAddress}</p>  
+                                                  </div>
+                                                `
+                            $('#cards-box').append(temp_html)
+                                              }
+    
+            },
+          })
+        }
+    
+
+</script>
+</head>
+
+<body>
+  {% extends 'layout.html' %} {% block content %}
+
+  <section class="section">
+    <div class="media-content">
+      <div class="field">
+        <p class="control">
+          <!-- 검색창 -->
+        <div class="container" style="background-color: wheat; border-radius:50px;">
+          <br />
+          <div class="row justify-content-center"  style="margin-bottom:20px;">
+            <div class="col-10 col-md-10 col-lg-9">
+              <form class="card card-sm">
+                <div class="card-body row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <i class="fas fa-search h4 text-body"></i>
                   </div>
-                </nav>
-              </div>
-            </article>
-          </div>
-        </div>
-        <button
-          class="modal-close is-large"
-          aria-label="close"
-          onclick='$("#modal-post").removeClass("is-active")'
-        ></button>
-      </div>
-    </section>
-    <section class="section">
-      <div id="post-box" class="container">
-        <div class="box">
-          <article class="media">
-            <div class="media-left">
-              <a class="image is-64x64" href="#">
-                <img class="is-rounded" src={{ url_for("static",
-                filename="profile_pics/profile_placeholder.png") }} alt="Image">
-              </a>
-            </div>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>홍길동</strong> <small>@username</small>
-                  <small>10분 전</small>
-                  <br />
-                  글을 적는 칸
-                </p>
-              </div>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <a
-                    class="level-item is-sparta"
-                    aria-label="heart"
-                    onclick="toggle_like('', 'heart')"
-                  >
-                    <span class="icon is-small"
-                      ><i class="fa fa-heart" aria-hidden="true"></i></span
-                    >&nbsp;<span class="like-num">2.7k</span>
-                  </a>
+                  <!-- 검색창 id : search_dog -->
+                  <div class="col">
+                    <input class="form-control form-control-lg form-control-borderless" type="search"
+                      placeholder="강아지 이름 검색" id="search_dog" >
+                  </div>
+                  <!-- 검색 버튼 id : search_btn -->
+                  <div class="col-auto">
+                    <button class="btn btn-lg btn-warning" type="button" id="search_btn" onclick="search_dog_name()">
+                      검색하기
+                    </button>
+                  </div>
+                  <!--end of col-->
                 </div>
-              </nav>
+              </form>
             </div>
-          </article>
+            <!--end of col-->
+          </div>
+          <div class ="card-group"  id= "cards-box"></div>
         </div>
+        </p>
+  
       </div>
-    </section>
-  </body>
+    </div>
+    
+    <div id="map" style="width:90%; justify-content: center; margin:auto;"></div>
+  </section>
+  {% endblock %}
+
+</body>
+
 </html>

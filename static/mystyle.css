@@ -1,20 +1,20 @@
-body {
-  background-color: RGBA(232, 52, 78, 0.2);
-  min-height: 100vh;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-.section {
-  padding: 1rem 1.5rem;
-  max-width: 750px;
-  margin: auto;
-}
+/*.section {*/
+/*  padding: 1rem 1.5rem;*/
+/*  max-width: 750px;*/
+/*  margin: auto;*/
+/*}*/
 
 .is-sparta {
   color: #e8344e !important;
 }
 
 .button.is-sparta {
-  background-color: #e8344e;
+  background-color: hsl(141, 71%, 48%);
   border-color: transparent;
   color: #fff !important;
 }
