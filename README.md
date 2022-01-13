@@ -18,37 +18,9 @@
 여러 기술 스택을 배우고, 팀원간에 논의를 통해 이슈를 해결하다보니 대부분 공통 작업으로 진행했습니다. 
 ### 😀 이승수 Full-Stack, 팀장
 [github page](https://github.com/leeseungsoo0701)
-1. **원격 서버 접속 및 환경 구축**  
-public ip 터널링 및 포트 포워딩을 통해 domain `[nas.gractor.com](http://nas.gractor.com)` 으로 사내 서버에 접근
-2. **NoSQL data modeling** 🌟  
-RDBMS와 NoSQL의 차이를 이해하고 단순 렌더링 및 데이터 업데이트 빈도에 따라 db 설계
-3. **지도 시각화** 🌟  
-d3 라이브러리를 이용해 서울특별시 구단위 지도를 구현하고 click, zoom, hover 이벤트를 구현
-4. **실시간 데이터 시각화**  
-mqtt, websocket 을 이용해 실시간 데이터를 받고 line, bar 타입의 차트 그리고 지도 업데이트
-5. **로그인 및 세션 관리**  
-브라우저에서 GET 요청 시 쿠키에 저장된 세션을 토대로 로그인 상태를 갱신한다. 이를 통해 새로고침 및 같은 브라우저에서 로그인 상태 공유 이슈를 해결했다.
-6. **Dashboard 기능 구현 (Create, Read, Update)**  
-대시보드 생성, 각 페이지 렌더링을 위한 데이터 요청, 업무 상태 수정 등 필요한 API 작성 및 로직 처리   
 
 ### 😀 이현규 Full-Stack
-
 [github page](https://github.com/Aiden76005588)
-1. **ssh 원격 서버 접속 및 환경 구축**  
-public ip 터널링 및 포트 포워딩을 통해 domain `[nas.gractor.com](http://nas.gractor.com)` 으로 사내 서버에 접근 
-2. Use **NoSQL Database**  🌟  
-RDBMS와 NoSQL의 차이를 이해. Data를 왜 NoSQL에 저장하여 쓰는지 경험으로 알 수 있었다.
-ElasticSearch 의 Index별로 저장된 Data는 분류하기도 쉽고 꺼내와서 사용하기도 쉽다.
-3. **지도 시각화** 🌟  
-Kakao Map API를 이용해 대한민국 지도를 구현하고 ElasticSearch에서 위도,경도 Data를 가져와 
-마커를 찍고 위치를 시각화하고 위치찾기,길찾기 등의 기능을 적용하여 사용자 편의성을 높힘.
-마커에 click, zoom, hover 이벤트를 구현.
-4. **실시간 데이터 시각화**  
-MQTT - WEBSOCKET - NUXT 
-MQTT와 WEBSOCKET 을 이용해 Nuxt에 데이터를 전송 line, bar 타입의 차트를 그렸습니다.
-5. **로그인 및 세션 관리**  
-브라우저에서 GET 요청 시 쿠키에 저장된 세션을 토대로 로그인 상태를 갱신한다. 이를 통해 새로고침 및 같은 브라우저에서 로그인 상태 공유 이슈를 해결했다.
-
 ### 😀 이연우 Full-Stack
 
 [github page](https://github.com/ynoolee)
@@ -58,6 +30,19 @@ MQTT와 WEBSOCKET 을 이용해 Nuxt에 데이터를 전송 line, bar 타입의 
 ### 😀 박민우 Full-Stack
 
 [github page](https://github.com/mc0ding)
+
+1. **NoSQL data modeling** 🌟  
+RDBMS와 NoSQL의 차이를 이해. Data를 왜 NoSQL에 저장하여 쓰는지 경험으로 알 수 있었다.
+MongoDB에 저장된 Data는 원하는 형태로 꺼내와서 사용하기도 쉽다.
+2. **Naver Map을 이용한 Marker** 🌟  
+Naver Map을 이용하여 맵을 클릭하였을때의 위도와 경도를 가져와
+강아지를 잃어버린 위치를 Marker로 시각화하였다.
+3. **로그인 및 토큰 관리**  
+브라우저에서 Login 요청 시 토큰에 저장된 정보를 토대로 로그인 상태를 갱신한다. 이를 통해 새로고침 및 같은 브라우저에서 로그인 상태 공유 이슈를 해결했다.
+4. **Dashboard 기능 구현 (Create, Read, Update)**  
+글쓰기 생성, 각 페이지 렌더링을 위한 데이터 요청, 이미지 업로드, 해당 글의 덧글 리스트 랜더링 등 필요한 API 작성 및 로직 처리
+5. **AWS EC2를 이용한 배포**  
+AWS EC2를 이용하여 배포
 
 
 ## ✍ 기획
