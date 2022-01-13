@@ -1,6 +1,3 @@
-# finDog
-강아지를 잃어버렸을 때, 사람들의 네트워크를 통한 강아지를 찾고 또 제보할 수 있는 웹 서비스
-
 ## ✍ 프로젝트 소개
 ![](https://img.shields.io/badge/Project-FindDog-blue?style=for-the-badge)
 
