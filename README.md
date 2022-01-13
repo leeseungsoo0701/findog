@@ -51,13 +51,13 @@ MQTT와 WEBSOCKET 을 이용해 Nuxt에 데이터를 전송 line, bar 타입의 
 
 ### 😀 이연우 Full-Stack
 
-[github page](https://github.com/Aiden76005588)
+[github page](https://github.com/ynoolee)
 
 1.회원가입 로그인 비회원 글쓰기 지도pai 마커
 
 ### 😀 박민우 Full-Stack
 
-[github page](https://github.com/90lastday)
+[github page](https://github.com/mc0ding)
 
 
 ## ✍ 기획
